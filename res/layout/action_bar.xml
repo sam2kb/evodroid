@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sonorth.evodroid.util.AppTitleBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/action_bar"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/actionBarWrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:background="#C9C9C9"
+        android:gravity="left|top"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/blogSelector"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="@dimen/action_bar_right_margin"
+            android:layout_marginTop="1px"
+            android:background="@drawable/action_bar_btn_selector"
+            android:gravity="center_vertical"
+            android:padding="0dp" >
+
+            <ImageView
+                android:id="@+id/blavatar_img"
+                android:layout_width="@dimen/action_bar_gravatar_size"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="-1dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/b2evo_logo_actionbar" />
+
+            <TextView
+                android:id="@+id/blog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="34dp"
+                android:layout_marginTop="-1dp"
+                android:layout_toRightOf="@id/blavatar_img"
+                android:gravity="center_vertical"
+                android:shadowColor="#FFFFFFFF"
+                android:shadowDy="-2"
+                android:shadowRadius="2"
+                android:singleLine="True"
+                android:text="@string/app_name"
+                android:textColor="#FF212121"
+                android:textSize="@dimen/action_bar_title_text_size"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/drop_down_arrow"
+                android:layout_width="14dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="-1dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/drop_down_arrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+
+            <ImageButton
+                android:id="@+id/home_small"
+                android:layout_width="@dimen/action_bar_height"
+                android:layout_height="@dimen/action_bar_height"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="1px"
+                android:background="@drawable/action_bar_btn_selector_right"
+                android:padding="@dimen/action_bar_button_padding"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_titlebar_home" />
+
+            <FrameLayout
+                android:layout_width="@dimen/action_bar_height"
+                android:layout_height="@dimen/action_bar_height"
+                android:layout_marginRight="1px"
+                android:layout_marginTop="1px"
+                android:layout_toLeftOf="@id/home_small" >
+
+                <Button
+                    android:id="@+id/action_refresh"
+                    android:layout_width="@dimen/action_bar_height"
+                    android:layout_height="@dimen/action_bar_height"
+                    android:background="@drawable/action_bar_btn_selector"
+                    android:padding="@dimen/action_bar_button_padding"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/refresh_icon"
+                    android:layout_width="@dimen/action_bar_height"
+                    android:layout_height="@dimen/action_bar_height"
+                    android:gravity="center"
+                    android:padding="@dimen/action_bar_button_padding"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_titlebar_refresh" />
+            </FrameLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/shadow"
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="@dimen/action_bar_height"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/title_bar_shadow" />
+
+    <include
+        android:id="@+id/dashboard_overlay"
+        layout="@layout/dashboard_buttons_portrait" />
+
+</com.sonorth.evodroid.util.AppTitleBar>
