@@ -2288,7 +2288,7 @@ public class EditPost extends Activity {
 			for (int i = 0; i < categories.length(); i++) {
 				try {
 					csv += EscapeUtils.unescapeHtml(categories.getString(i))
-							+ ",";
+							+ ", ";
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
