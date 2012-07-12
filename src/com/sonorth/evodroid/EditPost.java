@@ -16,18 +16,6 @@ import java.util.Vector;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.models.MediaFile;
-import com.sonorth.evodroid.models.Post;
-import com.sonorth.evodroid.util.EscapeUtils;
-import com.sonorth.evodroid.util.ImageHelper;
-import com.sonorth.evodroid.util.LocationHelper;
-import com.sonorth.evodroid.util.LocationHelper.LocationResult;
-import com.sonorth.evodroid.util.StringHelper;
-import com.sonorth.evodroid.util.AppEditText;
-import com.sonorth.evodroid.util.AppHtml;
-import com.sonorth.evodroid.util.AppImageSpan;
-import com.sonorth.evodroid.util.AppUnderlineSpan;
 import org.xmlrpc.android.ApiHelper;
 
 import android.app.Activity;
@@ -94,6 +82,19 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.models.MediaFile;
+import com.sonorth.evodroid.models.Post;
+import com.sonorth.evodroid.util.AppEditText;
+import com.sonorth.evodroid.util.AppHtml;
+import com.sonorth.evodroid.util.AppImageSpan;
+import com.sonorth.evodroid.util.AppUnderlineSpan;
+import com.sonorth.evodroid.util.EscapeUtils;
+import com.sonorth.evodroid.util.ImageHelper;
+import com.sonorth.evodroid.util.LocationHelper;
+import com.sonorth.evodroid.util.LocationHelper.LocationResult;
+import com.sonorth.evodroid.util.StringHelper;
+
 public class EditPost extends Activity {
 	/** Called when the activity is first created. */
 	public ProgressDialog pd;
@@ -115,7 +116,7 @@ public class EditPost extends Activity {
 	int cursorLoc = 0, screenDensity = 0;
 	// date holders
 	private int mYear, mMonth, mDay, mHour, mMinute, styleStart,
-			selectionStart, selectionEnd, lastPosition = -1;
+	selectionStart, selectionEnd, lastPosition = -1;
 	private Blog blog;
 	private Post post;
 	// post formats
@@ -139,7 +140,11 @@ public class EditPost extends Activity {
 				b2evolution.currentBlog = new Blog(
 						b2evolution.DB.getLastBlogID(this), this);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Toast.makeText(
+						this,
+						getResources().getText(R.string.blog_not_found),
+						Toast.LENGTH_SHORT).show();
+				finish();
 			}
 		}
 
@@ -153,7 +158,7 @@ public class EditPost extends Activity {
 		if (width > 480) {
 			isLargeScreen = true;
 		}
-		
+
 		//initialize the dates
 		Calendar c = Calendar.getInstance();
 		mYear = c.get(Calendar.YEAR);
@@ -208,34 +213,34 @@ public class EditPost extends Activity {
 							R.string.select_a_blog));
 					builder.setItems(blogNames,
 							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int item) {
-									id = accountIDs[item];
-									try {
-										blog = new Blog(id, EditPost.this);
-									} catch (Exception e) {
-										Toast.makeText(
-												EditPost.this,
-												getResources()
-														.getText(
-																R.string.blog_not_found),
+						public void onClick(DialogInterface dialog,
+								int item) {
+							id = accountIDs[item];
+							try {
+								blog = new Blog(id, EditPost.this);
+							} catch (Exception e) {
+								Toast.makeText(
+										EditPost.this,
+										getResources()
+										.getText(
+												R.string.blog_not_found),
 												Toast.LENGTH_SHORT).show();
-										finish();
-									}
-									b2evolution.currentBlog = blog;
-									b2evolution.DB
-											.updateLastBlogID(b2evolution.currentBlog
-													.getId());
-									accountName = blogNames[item];
-									setTitle(EscapeUtils
-											.unescapeHtml(accountName)
-											+ " - "
-											+ getResources()
-													.getText(
-															(isPage) ? R.string.new_page
-																	: R.string.new_post));
-								}
-							});
+								finish();
+							}
+							b2evolution.currentBlog = blog;
+							b2evolution.DB
+							.updateLastBlogID(b2evolution.currentBlog
+									.getId());
+							accountName = blogNames[item];
+							setTitle(EscapeUtils
+									.unescapeHtml(accountName)
+									+ " - "
+									+ getResources()
+									.getText(
+											(isPage) ? R.string.new_page
+													: R.string.new_post));
+						}
+					});
 					AlertDialog alert = builder.create();
 					alert.show();
 				} else {
@@ -314,7 +319,7 @@ public class EditPost extends Activity {
 									this,
 									getResources().getText(
 											R.string.post_not_found),
-									Toast.LENGTH_LONG).show();
+											Toast.LENGTH_LONG).show();
 							finish();
 							return;
 						} else {
@@ -363,7 +368,7 @@ public class EditPost extends Activity {
 				new ApiHelper.getPostFormatsTask().execute(args);
 				Log.v("PostFormats", "requesting post types");
 			}
-			
+
 			// TODO sam2kb> Update the spinner at onPostExecute() after we get post types from blog
 			if (blog.getPostFormats().equals("")) {
 				Log.v("PostFormats", "using default post types");
@@ -396,7 +401,7 @@ public class EditPost extends Activity {
 			ArrayAdapter<String> pfAdapter = new ArrayAdapter<String>(this,
 					android.R.layout.simple_spinner_item, postFormatTitles);
 			pfAdapter
-					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			pfSpinner.setAdapter(pfAdapter);
 			String activePostFormat = "1";
 			if (!isNew) {
@@ -407,7 +412,7 @@ public class EditPost extends Activity {
 					e.printStackTrace();
 				}
 			}
-			
+
 			for (int i = 0; i < postFormats.length; i++) {
 				if (postFormats[i].equals(activePostFormat))
 					pfSpinner.setSelection(i);
@@ -484,7 +489,7 @@ public class EditPost extends Activity {
 						this,
 						getResources().getText(
 								R.string.post_not_found),
-						Toast.LENGTH_LONG).show();
+								Toast.LENGTH_LONG).show();
 				finish();
 				return;
 			}
@@ -504,7 +509,7 @@ public class EditPost extends Activity {
 			if (!post.getMt_text_more().equals("")) {
 				if (post.isLocalDraft())
 					contentHTML = post.getDescription()
-							+ "\n&lt;!--more--&gt;\n" + post.getMt_text_more();
+					+ "\n&lt;!--more--&gt;\n" + post.getMt_text_more();
 				else
 					contentHTML = post.getDescription() + "\n<!--more-->\n"
 							+ post.getMt_text_more();
@@ -739,33 +744,33 @@ public class EditPost extends Activity {
 
 								AlertDialog ad = new AlertDialog.Builder(
 										EditPost.this)
-										.setTitle("Image Settings")
-										.setView(alertView)
-										.setPositiveButton(
-												"OK",
-												new DialogInterface.OnClickListener() {
-													public void onClick(
-															DialogInterface dialog,
-															int whichButton) {
+								.setTitle("Image Settings")
+								.setView(alertView)
+								.setPositiveButton(
+										"OK",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int whichButton) {
 
-														span.setTitle(titleText
-																.getText()
-																.toString());
-														// span.setDescription(descText
-														// .getText().toString());
+												span.setTitle(titleText
+														.getText()
+														.toString());
+												// span.setDescription(descText
+												// .getText().toString());
 
-														span.setHorizontalAlignment(alignmentSpinner
-																.getSelectedItemPosition());
-														span.setWidth(seekBar
-																.getProgress() * 10);
-														span.setCaption(caption
-																.getText()
-																.toString());
-														// span.setFeatured(featured
-														// .isChecked());
+												span.setHorizontalAlignment(alignmentSpinner
+														.getSelectedItemPosition());
+												span.setWidth(seekBar
+														.getProgress() * 10);
+												span.setCaption(caption
+														.getText()
+														.toString());
+												// span.setFeatured(featured
+												// .isChecked());
 
-													}
-												})
+											}
+										})
 										.setNegativeButton(
 												"Cancel",
 												new DialogInterface.OnClickListener() {
@@ -993,7 +998,7 @@ public class EditPost extends Activity {
 			public void onClick(View v) {
 				if (autoSaveHandler != null)
 					autoSaveHandler.removeCallbacks(autoSaveRunnable);
-				
+
 				boolean result = savePost(false);
 				if (result) {
 					if (post.isUploaded() || !post.getPost_status().equals("localdraft")) {
@@ -1126,7 +1131,7 @@ public class EditPost extends Activity {
 
 						boolean exists = false;
 						for (int i = 0; i < ss.length; i++) {
-							int style = ((StyleSpan) ss[i]).getStyle();
+							int style = ss[i].getStyle();
 							if (style == android.graphics.Typeface.BOLD) {
 								str.removeSpan(ss[i]);
 								exists = true;
@@ -1146,7 +1151,7 @@ public class EditPost extends Activity {
 
 						boolean exists = false;
 						for (int i = 0; i < ss.length; i++) {
-							int style = ((StyleSpan) ss[i]).getStyle();
+							int style = ss[i].getStyle();
 							if (style == android.graphics.Typeface.ITALIC) {
 								str.removeSpan(ss[i]);
 								exists = true;
@@ -1374,12 +1379,12 @@ public class EditPost extends Activity {
 					R.string.sdcard_message));
 			dialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							// just close the dialog
+				public void onClick(DialogInterface dialog,
+						int whichButton) {
+					// just close the dialog
 
-						}
-					});
+				}
+			});
 			dialogBuilder.setCancelable(true);
 			dialogBuilder.create().show();
 		} else {
@@ -1590,7 +1595,7 @@ public class EditPost extends Activity {
 								str.insert(selectionStart, linkURL);
 								str.setSpan(new URLSpan(linkURL),
 										selectionStart, selectionStart
-												+ linkURL.length(),
+										+ linkURL.length(),
 										Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 								contentText.setSelection(selectionStart
@@ -1602,7 +1607,7 @@ public class EditPost extends Activity {
 								str.insert(selectionStart, linkText);
 								str.setSpan(new URLSpan(linkURL),
 										selectionStart, selectionStart
-												+ linkText.length(),
+										+ linkText.length(),
 										Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 								contentText.setSelection(selectionStart
 										+ linkText.length());
@@ -1734,7 +1739,7 @@ public class EditPost extends Activity {
 			// post format
 			Spinner postFormatSpinner = (Spinner) findViewById(R.id.postFormat);
 			postFormat = postFormats[postFormatSpinner
-					.getSelectedItemPosition()];
+			                         .getSelectedItemPosition()];
 		}
 
 		String images = "";
@@ -1749,11 +1754,11 @@ public class EditPost extends Activity {
 					R.string.title_post_required));
 			dialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							// Just close the window
-						}
-					});
+				public void onClick(DialogInterface dialog,
+						int whichButton) {
+					// Just close the window
+				}
+			});
 			dialogBuilder.setCancelable(true);
 			dialogBuilder.create().show();
 		} else {
@@ -1786,10 +1791,10 @@ public class EditPost extends Activity {
 						if (!autoSave) {
 							s.removeSpan(appIS);
 							s.insert(tagStart, "<img android-uri=\""
-								+ appIS.getImageSource().toString() + "\" />");
+									+ appIS.getImageSource().toString() + "\" />");
 							if (localDraft)
 								content = EscapeUtils
-									.unescapeHtml(AppHtml.toHtml(s));
+								.unescapeHtml(AppHtml.toHtml(s));
 							else
 								content = s.toString();
 						}
@@ -1832,7 +1837,7 @@ public class EditPost extends Activity {
 
 			}
 			String needle = "<!--more-->";
-			
+
 			if (isNew) {
 				post = new Post(id, title, content, images, pubDateTimestamp,
 						categories.toString(), tags, status, "",
@@ -1850,12 +1855,12 @@ public class EditPost extends Activity {
 				}
 
 				success = post.save();
-				
+
 				if (success) {
 					isNew = false;
 					isNewDraft = true;
 				}
-				
+
 				post.deleteMediaFiles();
 
 				Spannable s = contentET.getText();
@@ -1928,25 +1933,25 @@ public class EditPost extends Activity {
 			AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
 					EditPost.this);
 			dialogBuilder
-					.setTitle(getResources().getText(R.string.cancel_edit));
+			.setTitle(getResources().getText(R.string.cancel_edit));
 			dialogBuilder.setMessage(getResources().getText(
 					(isPage) ? R.string.sure_to_cancel_edit_page
 							: R.string.sure_to_cancel_edit));
 			dialogBuilder.setPositiveButton(getResources()
 					.getText(R.string.yes),
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
-							if (isNewDraft)
-								post.delete();
-							Bundle bundle = new Bundle();
-							bundle.putString("returnStatus", "CANCEL");
-							Intent mIntent = new Intent();
-							mIntent.putExtras(bundle);
-							setResult(RESULT_OK, mIntent);
-							finish();
-						}
-					});
+				public void onClick(DialogInterface dialog,
+						int whichButton) {
+					if (isNewDraft)
+						post.delete();
+					Bundle bundle = new Bundle();
+					bundle.putString("returnStatus", "CANCEL");
+					Intent mIntent = new Intent();
+					mIntent.putExtras(bundle);
+					setResult(RESULT_OK, mIntent);
+					finish();
+				}
+			});
 			dialogBuilder.setNegativeButton(
 					getResources().getText(R.string.no),
 					new DialogInterface.OnClickListener() {
@@ -1982,7 +1987,7 @@ public class EditPost extends Activity {
 			locationHelper.cancelTimer();
 		}
 		autoSaveHandler.removeCallbacks(autoSaveRunnable);
-		}
+	}
 
 	@Override
 	protected void onDestroy() {
@@ -2084,7 +2089,7 @@ public class EditPost extends Activity {
 	}
 
 	private class processAttachmentsTask extends
-			AsyncTask<Vector<?>, Void, SpannableStringBuilder> {
+	AsyncTask<Vector<?>, Void, SpannableStringBuilder> {
 
 		protected void onPreExecute() {
 
@@ -2334,7 +2339,7 @@ public class EditPost extends Activity {
 		}
 
 	};
-	
+
 	/*AUTOSAVE*/
 	private Runnable autoSaveRunnable = new Runnable() {
 		public void run() {
