@@ -45,14 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dip"
-            android:text="@string/publisher"
-            android:textSize="18dip" />
-
-        <TextView
-            android:id="@+id/about_third_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:text="@string/copyright"
             android:textSize="18dip" />
 
