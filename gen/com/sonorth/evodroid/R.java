@@ -468,39 +468,39 @@ public final class R {
     public static final class string {
         public static final int about=0x7f07001a;
         public static final int accept=0x7f070023;
-        public static final int account_added=0x7f0700dd;
-        public static final int account_already_exists=0x7f0700dc;
+        public static final int account_added=0x7f0700de;
+        public static final int account_already_exists=0x7f0700dd;
         public static final int account_details=0x7f070014;
-        public static final int account_exists=0x7f0700db;
+        public static final int account_exists=0x7f0700dc;
         public static final int account_removed_successfully=0x7f07002f;
         /**  new account view 
          */
-        public static final int account_setup=0x7f0700d9;
+        public static final int account_setup=0x7f0700da;
         public static final int add=0x7f07001e;
         public static final int add_account=0x7f070026;
-        public static final int add_media=0x7f0700ec;
-        public static final int add_new_category=0x7f0700f0;
+        public static final int add_media=0x7f0700ed;
+        public static final int add_new_category=0x7f0700f1;
         public static final int add_tagline=0x7f0700cd;
-        public static final int adding_cat_failed=0x7f0700f6;
-        public static final int adding_cat_failed_check=0x7f0700f7;
-        public static final int adding_cat_success=0x7f0700f8;
-        public static final int all=0x7f070117;
-        public static final int app_author_url=0x7f070150;
+        public static final int adding_cat_failed=0x7f0700f7;
+        public static final int adding_cat_failed_check=0x7f0700f8;
+        public static final int adding_cat_success=0x7f0700f9;
+        public static final int all=0x7f070118;
+        public static final int app_author_url=0x7f070151;
         public static final int app_blog=0x7f070067;
         /**  About View 
          */
-        public static final int app_name=0x7f070149;
-        public static final int app_title=0x7f07014a;
-        public static final int app_title_playbook=0x7f07014b;
-        public static final int approve=0x7f0700d5;
+        public static final int app_name=0x7f07014a;
+        public static final int app_title=0x7f07014b;
+        public static final int app_title_blackberry=0x7f07014c;
+        public static final int approve=0x7f0700d6;
         /**  ex. on My favorite Things 
          */
         public static final int approved=0x7f070096;
         public static final int attempt_delete_page=0x7f0700bd;
         public static final int attempt_delete_post=0x7f0700c4;
-        public static final int attempt_retrieve=0x7f07011f;
+        public static final int attempt_retrieve=0x7f070120;
         public static final int attempting_categories_refresh=0x7f070040;
-        public static final int attempting_configure=0x7f0700da;
+        public static final int attempting_configure=0x7f0700db;
         public static final int attempting_edit_page=0x7f07007a;
         public static final int attempting_edit_post=0x7f07004c;
         public static final int attempting_fetch_url=0x7f0700c8;
@@ -511,9 +511,9 @@ public final class R {
         public static final int author_name=0x7f0700a4;
         public static final int author_name_required=0x7f0700aa;
         public static final int author_url=0x7f0700a6;
-        public static final int b2evo_admin=0x7f070147;
+        public static final int b2evo_admin=0x7f070148;
         public static final int basic_html=0x7f070089;
-        public static final int blog_address=0x7f070138;
+        public static final int blog_address=0x7f070139;
         public static final int blog_not_found=0x7f070061;
         public static final int blog_removed_successfully=0x7f0700af;
         /**  context menu 
@@ -524,22 +524,22 @@ public final class R {
         public static final int cancel=0x7f07001c;
         /**  drafts 
          */
-        public static final int cancel_draft=0x7f0700de;
+        public static final int cancel_draft=0x7f0700df;
         public static final int cancel_edit=0x7f07004d;
         public static final int caption_opt=0x7f070065;
-        public static final int cat_adding_category=0x7f0700fc;
-        public static final int cat_already_exists=0x7f0700fa;
-        public static final int cat_attempt_add_category=0x7f0700fd;
-        public static final int cat_name_required=0x7f0700fb;
+        public static final int cat_adding_category=0x7f0700fd;
+        public static final int cat_already_exists=0x7f0700fb;
+        public static final int cat_attempt_add_category=0x7f0700fe;
+        public static final int cat_name_required=0x7f0700fc;
         /**  form labels 
          */
         public static final int categories=0x7f070004;
         public static final int categories_refreshed=0x7f070043;
-        public static final int category_desc=0x7f0700f3;
-        public static final int category_name=0x7f0700f1;
-        public static final int category_parent=0x7f0700f4;
+        public static final int category_desc=0x7f0700f4;
+        public static final int category_name=0x7f0700f2;
+        public static final int category_parent=0x7f0700f5;
         public static final int category_refresh_error=0x7f070044;
-        public static final int category_slug=0x7f0700f2;
+        public static final int category_slug=0x7f0700f3;
         public static final int chart=0x7f070068;
         public static final int choose_blog=0x7f070070;
         public static final int clear=0x7f07001f;
@@ -547,25 +547,25 @@ public final class R {
         public static final int col2=0x7f07006b;
         /**  comment actions 
          */
-        public static final int comment_actions=0x7f0700cf;
+        public static final int comment_actions=0x7f0700d0;
         /**  comment form labels 
          */
         public static final int comment_content=0x7f070018;
         public static final int comment_moderated=0x7f0700a0;
-        public static final int comment_notifications=0x7f0700e1;
+        public static final int comment_notifications=0x7f0700e2;
         public static final int comment_update=0x7f0700a7;
         public static final int comments_moderated=0x7f0700a1;
         public static final int connection_error=0x7f070041;
         public static final int connection_error_occured=0x7f070042;
         public static final int content=0x7f070076;
         public static final int content_required=0x7f0700ab;
-        public static final int copyright=0x7f07014c;
+        public static final int copyright=0x7f07014d;
         public static final int could_not_remove_account=0x7f070031;
         public static final int create_a_link=0x7f070073;
-        public static final int daily=0x7f0700e6;
-        public static final int date=0x7f07011c;
+        public static final int daily=0x7f0700e7;
+        public static final int date=0x7f07011d;
         public static final int decline=0x7f070024;
-        public static final int delete=0x7f0700d4;
+        public static final int delete=0x7f0700d5;
         public static final int delete_draft=0x7f0700b5;
         public static final int delete_page=0x7f0700ba;
         public static final int delete_post=0x7f0700c1;
@@ -579,17 +579,17 @@ public final class R {
         public static final int description_opt=0x7f070066;
         public static final int done=0x7f070069;
         public static final int dont_yet_have_a_blog=0x7f07000a;
-        public static final int dotcom_signup=0x7f07013c;
-        public static final int draft=0x7f07012a;
+        public static final int dotcom_signup=0x7f07013d;
+        public static final int draft=0x7f07012b;
         /**  draft actions 
          */
         public static final int draft_actions=0x7f0700b2;
-        public static final int duplicated_cat=0x7f0700f9;
-        public static final int edit=0x7f070136;
+        public static final int duplicated_cat=0x7f0700fa;
+        public static final int edit=0x7f070137;
         public static final int edit_draft=0x7f0700b3;
         public static final int edit_page=0x7f070032;
         public static final int edit_post=0x7f070035;
-        public static final int email=0x7f07013a;
+        public static final int email=0x7f07013b;
         public static final int empty_fields=0x7f070047;
         public static final int error=0x7f070030;
         /**  general strings 
@@ -597,48 +597,49 @@ public final class R {
         public static final int eula=0x7f070019;
         /**  GPL v2 
          */
-        public static final int eula_content=0x7f070153;
+        public static final int eula_content=0x7f070154;
         public static final int evonet_login_required=0x7f070060;
         /**  b2evo.net signup 
          */
-        public static final int evonet_signup=0x7f070137;
+        public static final int evonet_signup=0x7f070138;
         public static final int exit_without_saving=0x7f0700b1;
         /**  file errors 
          */
-        public static final int file_error=0x7f070100;
-        public static final int file_error_encountered=0x7f070101;
+        public static final int file_error=0x7f070101;
+        public static final int file_error_encountered=0x7f070102;
         public static final int fullscreen=0x7f07008b;
         public static final int gallery_error=0x7f07005b;
-        public static final int geotag=0x7f070105;
+        public static final int geotag=0x7f070106;
         public static final int get_free_blog=0x7f07000d;
         public static final int getting_page=0x7f070033;
         public static final int getting_post=0x7f070036;
-        public static final int help_stats=0x7f070119;
+        public static final int help_stats=0x7f07011a;
         public static final int hint_menu_to_add_acc=0x7f070025;
         public static final int home=0x7f07005d;
         public static final int horizontal_alignment=0x7f070064;
-        public static final int hour=0x7f0700e4;
-        public static final int hours=0x7f0700e5;
+        public static final int hour=0x7f0700e5;
+        public static final int hours=0x7f0700e6;
         public static final int howto_select_text=0x7f070039;
         public static final int html=0x7f0700c5;
-        public static final int httppassword=0x7f070132;
+        public static final int httppassword=0x7f070133;
         /**  HTTP Authentication 
          */
-        public static final int httpuser=0x7f070131;
+        public static final int httpuser=0x7f070132;
         public static final int i_have_b2evo_blog=0x7f070010;
         public static final int i_have_blog=0x7f070011;
         /**  Image Alignment 
          */
-        public static final int image_alignment=0x7f070148;
+        public static final int image_alignment=0x7f070149;
+        public static final int image_settings=0x7f070156;
         public static final int immediately=0x7f070058;
-        public static final int instructions=0x7f07013e;
-        public static final int invalid_login=0x7f070122;
+        public static final int instructions=0x7f07013f;
+        public static final int invalid_login=0x7f070123;
         /**  invalid_url 
          */
-        public static final int invalid_url=0x7f070127;
-        public static final int invalid_url_message=0x7f070128;
+        public static final int invalid_url=0x7f070128;
+        public static final int invalid_url_message=0x7f070129;
         public static final int l_status=0x7f070016;
-        public static final int link=0x7f070125;
+        public static final int link=0x7f070126;
         /**  link view 
          */
         public static final int link_enter_url=0x7f070071;
@@ -650,52 +651,53 @@ public final class R {
         public static final int loading=0x7f070094;
         /**  Remote Post Changes 
          */
-        public static final int local_changes=0x7f070151;
+        public static final int local_changes=0x7f070152;
         public static final int local_draft=0x7f070081;
         public static final int local_drafts=0x7f070082;
         /**  location 
          */
-        public static final int location=0x7f070104;
-        public static final int location_not_found=0x7f070109;
-        public static final int location_toast=0x7f070106;
-        public static final int mark_approved=0x7f0700d0;
-        public static final int mark_deprecated=0x7f0700d2;
-        public static final int mark_unapproved=0x7f0700d1;
+        public static final int location=0x7f070105;
+        public static final int location_not_found=0x7f07010a;
+        public static final int location_toast=0x7f070107;
+        public static final int mark_approved=0x7f0700d1;
+        public static final int mark_deprecated=0x7f0700d3;
+        public static final int mark_unapproved=0x7f0700d2;
         public static final int max_thumbnail_px_width=0x7f07000b;
-        public static final int media=0x7f0700ed;
-        public static final int media_error=0x7f0700ee;
-        public static final int minutes=0x7f0700e3;
+        public static final int media=0x7f0700ee;
+        public static final int media_error=0x7f0700ef;
+        public static final int minutes=0x7f0700e4;
         public static final int moderate_comments=0x7f07009a;
         public static final int moderating_comment=0x7f07009b;
         public static final int moderating_comments=0x7f07009c;
         public static final int more_tag=0x7f07005f;
         public static final int new_account=0x7f070050;
-        public static final int new_comment=0x7f0700e7;
-        public static final int new_page=0x7f070144;
+        public static final int new_comment=0x7f0700e8;
+        public static final int new_page=0x7f070145;
         /**   Dashboard Buttons 
          */
-        public static final int new_post=0x7f070143;
+        public static final int new_post=0x7f070144;
         public static final int new_to_b2evo=0x7f070012;
         public static final int no=0x7f07002e;
-        public static final int no_account=0x7f0700ff;
+        public static final int no_account=0x7f070100;
         public static final int no_approved_comments=0x7f070093;
         public static final int no_camera_found=0x7f07005e;
-        public static final int no_data_found=0x7f070121;
+        public static final int no_data_found=0x7f070122;
         public static final int no_site_error=0x7f070027;
         public static final int no_text_selected=0x7f070038;
-        public static final int none=0x7f0700f5;
+        public static final int none=0x7f0700f6;
         public static final int notification_blink=0x7f07002b;
         public static final int notification_settings=0x7f070028;
         public static final int notification_sound=0x7f070029;
         public static final int notification_vibrate=0x7f07002a;
-        public static final int notifications_interval=0x7f0700e2;
+        public static final int notifications_interval=0x7f0700e3;
         /**  comment notifications 
          */
-        public static final int notifications_select=0x7f0700e0;
+        public static final int notifications_select=0x7f0700e1;
+        public static final int ok=0x7f070155;
         /**  comment view 
          */
         public static final int on=0x7f070095;
-        public static final int optional_settings=0x7f070134;
+        public static final int optional_settings=0x7f070135;
         public static final int original_size=0x7f07003e;
         /**  page actions 
          */
@@ -735,53 +737,54 @@ public final class R {
         public static final int post_id=0x7f070084;
         public static final int post_not_found=0x7f070062;
         public static final int post_not_published=0x7f0700c9;
-        public static final int post_private=0x7f07012b;
+        public static final int post_private=0x7f07012c;
         public static final int post_signature=0x7f0700cc;
         public static final int post_title=0x7f070009;
-        public static final int post_type=0x7f070140;
+        public static final int post_type=0x7f070141;
         public static final int posted_from=0x7f0700ce;
+        public static final int posted_from_blackberry=0x7f0700cf;
         public static final int posts_no_posts=0x7f07007f;
         /**  posts tab 
          */
         public static final int posts_not_found=0x7f07007e;
         /**  preferences 
          */
-        public static final int preferences=0x7f07010b;
+        public static final int preferences=0x7f07010c;
         public static final int preview_page=0x7f0700b8;
         public static final int preview_post=0x7f0700bf;
-        public static final int privacy_policy=0x7f07014f;
+        public static final int privacy_policy=0x7f070150;
         public static final int publish=0x7f070021;
         /**  post scheduling and password 
          */
-        public static final int publish_date=0x7f070135;
-        public static final int publish_no=0x7f0700d8;
+        public static final int publish_date=0x7f070136;
+        public static final int publish_no=0x7f0700d9;
         /**  post status 
          */
-        public static final int publish_post=0x7f070129;
+        public static final int publish_post=0x7f07012a;
         /**  publish yes/no 
          */
-        public static final int publish_yes=0x7f0700d7;
-        public static final int published=0x7f07012c;
-        public static final int quarter=0x7f070115;
-        public static final int quick_photo=0x7f070145;
-        public static final int quick_video=0x7f070146;
-        public static final int quickpress_add_alert_title=0x7f070130;
-        public static final int quickpress_add_error=0x7f07012f;
+        public static final int publish_yes=0x7f0700d8;
+        public static final int published=0x7f07012d;
+        public static final int quarter=0x7f070116;
+        public static final int quick_photo=0x7f070146;
+        public static final int quick_video=0x7f070147;
+        public static final int quickpress_add_alert_title=0x7f070131;
+        public static final int quickpress_add_error=0x7f070130;
         /**  QuickPress 
          */
-        public static final int quickpress_window_title=0x7f07012e;
+        public static final int quickpress_window_title=0x7f07012f;
         /**  reader 
          */
-        public static final int reader=0x7f070141;
+        public static final int reader=0x7f070142;
         public static final int refresh=0x7f07005c;
         /**  category management 
          */
-        public static final int refresh_categories=0x7f0700ef;
+        public static final int refresh_categories=0x7f0700f0;
         public static final int refreshing_categories=0x7f07003f;
-        public static final int remote_changes=0x7f070152;
+        public static final int remote_changes=0x7f070153;
         public static final int remove_account=0x7f0700ae;
-        public static final int remove_location=0x7f07010a;
-        public static final int reply=0x7f0700d3;
+        public static final int remove_location=0x7f07010b;
+        public static final int reply=0x7f0700d4;
         public static final int reply_added=0x7f0700a2;
         /**  reply view 
          */
@@ -791,61 +794,61 @@ public final class R {
         public static final int reply_send=0x7f07008e;
         public static final int reply_to_comment=0x7f07008f;
         public static final int replying_comment=0x7f07009d;
-        public static final int report_clicks=0x7f070110;
-        public static final int report_post_title=0x7f07011d;
-        public static final int report_postviews=0x7f07010d;
-        public static final int report_referrers=0x7f07010e;
-        public static final int report_searchterms=0x7f07010f;
-        public static final int report_videoplays=0x7f070111;
+        public static final int report_clicks=0x7f070111;
+        public static final int report_post_title=0x7f07011e;
+        public static final int report_postviews=0x7f07010e;
+        public static final int report_referrers=0x7f07010f;
+        public static final int report_searchterms=0x7f070110;
+        public static final int report_videoplays=0x7f070112;
         /**  stats 
          */
-        public static final int report_views=0x7f07010c;
+        public static final int report_views=0x7f07010d;
         public static final int required_field=0x7f070001;
         /**  account setup 
          */
         public static final int required_fields=0x7f070000;
-        public static final int retrieving_stats=0x7f07011e;
+        public static final int retrieving_stats=0x7f07011f;
         public static final int save=0x7f07001d;
         public static final int save_and_exit=0x7f0700b0;
         public static final int saved_to_local_drafts=0x7f07004f;
         public static final int saving_changes=0x7f0700a8;
         public static final int scaled_image=0x7f070054;
         public static final int scaled_image_error=0x7f070053;
-        public static final int scheduled=0x7f07012d;
-        public static final int sdcard_message=0x7f070103;
+        public static final int scheduled=0x7f07012e;
+        public static final int sdcard_message=0x7f070104;
         /**  SD Card errors 
          */
-        public static final int sdcard_title=0x7f070102;
+        public static final int sdcard_title=0x7f070103;
         /**  action from share intents 
          */
-        public static final int select_a_blog=0x7f0700fe;
+        public static final int select_a_blog=0x7f0700ff;
         public static final int select_categories=0x7f070005;
         /**  media selection 
          */
-        public static final int select_photo=0x7f0700e8;
+        public static final int select_photo=0x7f0700e9;
         public static final int select_text_to_blockquote=0x7f07003d;
         public static final int select_text_to_bold=0x7f07003a;
         public static final int select_text_to_emphasize=0x7f07003c;
         public static final int select_text_to_link=0x7f07003b;
-        public static final int select_video=0x7f0700ea;
+        public static final int select_video=0x7f0700eb;
         public static final int selected_categories=0x7f070020;
-        public static final int settings=0x7f070133;
+        public static final int settings=0x7f070134;
         public static final int settings_not_found=0x7f070045;
         public static final int settings_not_found_load_now=0x7f070046;
-        public static final int seven_days=0x7f070113;
+        public static final int seven_days=0x7f070114;
         public static final int share_link=0x7f0700c7;
         public static final int share_url=0x7f0700c6;
-        public static final int sign_up=0x7f07013b;
-        public static final int site_not_found=0x7f070123;
-        public static final int stats_login=0x7f070120;
-        public static final int stats_password=0x7f07011b;
-        public static final int stats_username=0x7f07011a;
+        public static final int sign_up=0x7f07013c;
+        public static final int site_not_found=0x7f070124;
+        public static final int stats_login=0x7f070121;
+        public static final int stats_password=0x7f07011c;
+        public static final int stats_username=0x7f07011b;
         public static final int status=0x7f070015;
         /**  editor button 
          */
-        public static final int strike=0x7f070124;
+        public static final int strike=0x7f070125;
         public static final int success=0x7f070022;
-        public static final int sure_cancel_draft=0x7f0700df;
+        public static final int sure_cancel_draft=0x7f0700e0;
         public static final int sure_to_cancel_edit=0x7f07004e;
         public static final int sure_to_cancel_edit_comment=0x7f0700a9;
         public static final int sure_to_cancel_edit_page=0x7f07007b;
@@ -860,20 +863,20 @@ public final class R {
         public static final int tagline_tablet=0x7f07000f;
         public static final int tags_and_categories=0x7f070006;
         public static final int tags_separate_with_commas=0x7f070007;
-        public static final int take_photo=0x7f0700e9;
-        public static final int take_video=0x7f0700eb;
-        public static final int terms=0x7f07013d;
-        public static final int thirty_days=0x7f070114;
+        public static final int take_photo=0x7f0700ea;
+        public static final int take_video=0x7f0700ec;
+        public static final int terms=0x7f07013e;
+        public static final int thirty_days=0x7f070115;
         public static final int title=0x7f070075;
         public static final int title_post_required=0x7f070048;
-        public static final int today=0x7f070112;
-        public static final int topics=0x7f070142;
-        public static final int tos=0x7f07014e;
-        public static final int unapprove=0x7f0700d6;
+        public static final int today=0x7f070113;
+        public static final int topics=0x7f070143;
+        public static final int tos=0x7f07014f;
+        public static final int unapprove=0x7f0700d7;
         public static final int unapproved=0x7f070097;
-        public static final int underline=0x7f070126;
+        public static final int underline=0x7f070127;
         public static final int untitled=0x7f070080;
-        public static final int update_location=0x7f070108;
+        public static final int update_location=0x7f070109;
         public static final int upload=0x7f0700b4;
         public static final int upload_failed=0x7f070087;
         public static final int upload_full_size_image=0x7f070051;
@@ -885,21 +888,21 @@ public final class R {
         public static final int uploading_media_item=0x7f07005a;
         public static final int url_username_password_required=0x7f070002;
         public static final int username=0x7f07001b;
-        public static final int username_password_required=0x7f070118;
-        public static final int version=0x7f07014d;
+        public static final int username_password_required=0x7f070119;
+        public static final int version=0x7f07014e;
         public static final int view_comment_from=0x7f0700a3;
         /**  view post comments 
          */
         public static final int view_comments=0x7f070092;
         public static final int view_in_browser=0x7f0700cb;
-        public static final int view_map=0x7f070107;
+        public static final int view_map=0x7f070108;
         public static final int vp_upgrade=0x7f07008a;
-        public static final int waiting_activation=0x7f07013f;
+        public static final int waiting_activation=0x7f070140;
         public static final int width=0x7f070063;
         public static final int xmlrpc_error=0x7f070003;
-        public static final int year=0x7f070116;
+        public static final int year=0x7f070117;
         public static final int yes=0x7f07002d;
-        public static final int your_account=0x7f070139;
+        public static final int your_account=0x7f07013a;
     }
     public static final class style {
         public static final int DashboardButtonText=0x7f09000f;

@@ -1,12 +1,12 @@
 package com.sonorth.evodroid.util;
 
-import com.sonorth.evodroid.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+
+import com.sonorth.evodroid.R;
 
 public class AppAlertDialogFragment extends DialogFragment implements
     DialogInterface.OnClickListener {

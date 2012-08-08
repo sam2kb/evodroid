@@ -1,18 +1,5 @@
 package com.sonorth.evodroid;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import com.sonorth.evodroid.models.MediaFile;
-import com.sonorth.evodroid.models.Post;
-import com.sonorth.evodroid.util.Base64;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-
 import java.text.StringCharacterIterator;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +10,20 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.sonorth.evodroid.models.MediaFile;
+import com.sonorth.evodroid.models.Post;
+import com.sonorth.evodroid.util.Base64;
 
 public class b2evolutionDB {
 

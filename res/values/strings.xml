@@ -132,7 +132,7 @@
   <!-- page view -->
   <string name="page_content">Page Content</string>
   <string name="title">Title</string>
-  <string name="content">Content</string>
+  <string name="content">Tap to add text and media</string>
   <string name="page_edited">Page Edited</string>
   <string name="page_edited_image_error">Page edited successfully, but an error was encountered when uploading media</string>
   <string name="page_edited_successfully">Page edited successfully</string>
@@ -247,6 +247,7 @@
   <string name="post_signature">Post Signature</string>
   <string name="add_tagline">Add a tagline to new posts</string>
   <string name="posted_from">Posted from b2evolution for Android</string>
+  <string name="posted_from_blackberry">Posted from BlackBerry</string>
 
   <!-- comment actions -->
   <string name="comment_actions">Comment Actions</string>
@@ -453,7 +454,7 @@
   <!-- About View -->
   <string name="app_name">b2evolution</string>
   <string name="app_title">b2evolution for Android</string>
-  <string name="app_title_playbook">b2evolution for PlayBook</string>
+  <string name="app_title_blackberry">b2evolution for BlackBerry</string>
   <string name="copyright">&#169;2012 Sonorth Tech</string>
   <string name="version">Version</string>
   <string name="tos">Terms of Service</string>
@@ -693,5 +694,7 @@
     HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
     DAMAGES.\n\nEND OF TERMS AND CONDITIONS
   </string>
+  <string name="ok">OK</string>
+  <string name="image_settings">Image Settings</string>
 
 </resources>

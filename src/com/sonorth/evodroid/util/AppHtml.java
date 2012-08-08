@@ -16,11 +16,12 @@ package com.sonorth.evodroid.util;
  * limitations under the License.
  */
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashMap;
+
 import org.ccil.cowan.tagsoup.HTMLSchema;
 import org.ccil.cowan.tagsoup.Parser;
-import com.sonorth.evodroid.b2evolution;
-import com.sonorth.evodroid.models.MediaFile;
-import com.sonorth.evodroid.models.Post;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -61,9 +62,9 @@ import android.text.style.URLSpan;
 import android.view.Display;
 import android.view.WindowManager;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashMap;
+import com.sonorth.evodroid.b2evolution;
+import com.sonorth.evodroid.models.MediaFile;
+import com.sonorth.evodroid.models.Post;
 
 /**
  * This class processes HTML strings into displayable styled text. Not all HTML

@@ -2,7 +2,6 @@ package com.sonorth.evodroid;
 
 import java.util.HashMap;
 
-import com.sonorth.evodroid.models.Comment;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 
@@ -24,6 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.sonorth.evodroid.models.Comment;
 
 public class EditComment extends Activity {
 	

@@ -1,10 +1,10 @@
 package com.sonorth.evodroid;
 
+import android.app.Application;
+
 import com.sonorth.evodroid.models.Blog;
 import com.sonorth.evodroid.models.Comment;
 import com.sonorth.evodroid.models.Post;
-
-import android.app.Application;
 
 public class b2evolution extends Application {
     public static Blog currentBlog;

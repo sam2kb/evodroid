@@ -1,9 +1,6 @@
 package com.sonorth.evodroid;
 import java.util.List;
 
-import com.sonorth.evodroid.util.AppTitleBar;
-import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +16,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.sonorth.evodroid.util.AppTitleBar;
+import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
 
 
 public class Settings extends Activity {

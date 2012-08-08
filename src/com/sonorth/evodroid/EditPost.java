@@ -24,7 +24,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,7 +31,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -63,7 +61,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -97,23 +94,18 @@ import com.sonorth.evodroid.util.StringHelper;
 
 public class EditPost extends Activity {
 	/** Called when the activity is first created. */
-	public ProgressDialog pd;
 	Vector<String> selectedCategories = new Vector<String>();
-	public String categoryErrorMsg = "", accountName = "", option, provider,
-			SD_CARD_TEMP_DIR = "";
+	public String accountName = "", option, SD_CARD_TEMP_DIR = "";
 	private JSONArray categories;
 	private int id;
 	long postID, customPubDate = 0;
 	private int ID_DIALOG_DATE = 0, ID_DIALOG_TIME = 1, ID_DIALOG_LOADING = 2;
 	public Boolean localDraft = false, isPage = false, isNew = false,
-			isAction = false, isUrl = false, isLargeScreen = false,
-			isCustomPubDate = false, isFullScreenEditing = false,
+			isAction = false, isCustomPubDate = false, isFullScreenEditing = false,
 			isBackspace = false, imeBackPressed = false,
 			scrollDetected = false, isNewDraft = false;
-	Criteria criteria;
 	Location curLocation;
-	ProgressDialog postingDialog;
-	int cursorLoc = 0, screenDensity = 0;
+	// date holders
 	// date holders
 	private int mYear, mMonth, mDay, mHour, mMinute, styleStart,
 	selectionStart, selectionEnd, lastPosition = -1;
@@ -146,17 +138,6 @@ public class EditPost extends Activity {
 						Toast.LENGTH_SHORT).show();
 				finish();
 			}
-		}
-
-		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE))
-				.getDefaultDisplay();
-		int width = display.getWidth();
-		int height = display.getHeight();
-		if (height > width) {
-			width = height;
-		}
-		if (width > 480) {
-			isLargeScreen = true;
 		}
 
 		//initialize the dates
@@ -201,7 +182,6 @@ public class EditPost extends Activity {
 								Toast.LENGTH_SHORT).show();
 						finish();
 					}
-
 				}
 
 				// Don't prompt if they have one blog only
@@ -278,8 +258,8 @@ public class EditPost extends Activity {
 		} else {
 
 			if (extras != null) {
-				id = b2evolution.currentBlog.getId();
 				try {
+					id = b2evolution.currentBlog.getId();
 					blog = new Blog(id, this);
 				} catch (Exception e) {
 					Toast.makeText(this,
@@ -641,6 +621,7 @@ public class EditPost extends Activity {
 				if (!isFullScreenEditing && event.getAction() == 1) {
 					isFullScreenEditing = true;
 					content.setFocusableInTouchMode(true);
+					content.setHint("");
 					try {
 						LinearLayout smallEditorWrap = (LinearLayout) findViewById(R.id.postContentEditorSmallWrapper);
 						smallEditorWrap.removeView(content);
@@ -660,6 +641,7 @@ public class EditPost extends Activity {
 
 				if (event.getAction() == 1 && !scrollDetected
 						&& isFullScreenEditing) {
+					imeBackPressed = false;
 					Layout layout = ((TextView) v).getLayout();
 					int x = (int) event.getX();
 					int y = (int) event.getY();
@@ -847,7 +829,6 @@ public class EditPost extends Activity {
 
 			public void onImeBack(AppEditText view, String text) {
 				finishEditing();
-				imeBackPressed = true;
 			}
 
 		});
@@ -1310,7 +1291,7 @@ public class EditPost extends Activity {
 
 	protected void finishEditing() {
 		AppEditText content = (AppEditText) findViewById(R.id.postContent);
-
+		content.setHint(R.string.content);
 		if (isFullScreenEditing) {
 			isFullScreenEditing = false;
 			try {
@@ -1345,6 +1326,7 @@ public class EditPost extends Activity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		imeBackPressed = true;
 		switch (item.getItemId()) {
 		case 0:
 			launchPictureLibrary();
@@ -1544,16 +1526,13 @@ public class EditPost extends Activity {
 								.parse(android.provider.MediaStore.Images.Media
 										.insertImage(getContentResolver(),
 												f.getAbsolutePath(), null, null));
-
-						Log.i("camera",
-								"Selected image: " + capturedImage.toString());
-
 						f.delete();
 
 						addMedia(capturedImage.toString(), capturedImage);
 
 					} catch (FileNotFoundException e) {
 					} catch (Exception e) {
+					} catch (OutOfMemoryError e) {
 					}
 
 				}

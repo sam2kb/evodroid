@@ -1,22 +1,5 @@
 package com.sonorth.evodroid.util;
 
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
-import android.provider.MediaStore.Video;
-import android.util.FloatMath;
-import android.util.Log;
-import android.widget.ImageView;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
@@ -35,6 +18,23 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
+import android.provider.MediaStore.Video;
+import android.util.FloatMath;
+import android.util.Log;
+import android.widget.ImageView;
 
 public class ImageHelper {
 
@@ -61,7 +61,7 @@ public class ImageHelper {
 
 		if (sMaxImageWidth.equals("Original Size")) {
 			if (bytes.length > 2000000) // it's a biggie! don't want out of
-										// memory crash
+				// memory crash
 			{
 				float finWidth = 1000;
 				int sample = 0;
@@ -139,7 +139,7 @@ public class ImageHelper {
 				if ((orientation != null)
 						&& (orientation.equals("90")
 								|| orientation.equals("180") || orientation
-									.equals("270"))) {
+								.equals("270"))) {
 					matrix.postRotate(Integer.valueOf(orientation));
 				}
 
@@ -290,7 +290,7 @@ public class ImageHelper {
 			getRequest.abort();
 			Log.w("ImageDownloader", "Error while retrieving bitmap from "
 					+ url);
-		} 
+		}
 		return null;
 	}
 
@@ -350,11 +350,11 @@ public class ImageHelper {
 								.getColumnIndex(Images.Media.ORIENTATION);
 						orientation = cur.getString(orientationColumn);
 					}
-					
-					if (thumbData == null) { 
-					 	return null;
+
+					if (thumbData == null) {
+						return null;
 					}
-					
+
 					jpeg = new File(thumbData);
 					path = thumbData;
 				} else {
@@ -365,7 +365,13 @@ public class ImageHelper {
 
 				title = jpeg.getName();
 
-				bytes = new byte[(int) jpeg.length()];
+				try {
+					bytes = new byte[(int) jpeg.length()];
+				} catch (Exception e) {
+					return null;
+				} catch (OutOfMemoryError e) {
+					return null;
+				}
 
 				DataInputStream in = null;
 				try {
@@ -376,11 +382,6 @@ public class ImageHelper {
 				}
 				try {
 					in.readFully(bytes);
-				} catch (IOException e) {
-					e.printStackTrace();
-					return null;
-				}
-				try {
 					in.close();
 				} catch (IOException e) {
 					e.printStackTrace();

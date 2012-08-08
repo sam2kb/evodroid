@@ -16,13 +16,6 @@ import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import com.sonorth.evodroid.Posts;
-import com.sonorth.evodroid.R;
-import com.sonorth.evodroid.b2evolution;
-import com.sonorth.evodroid.util.EscapeUtils;
-import com.sonorth.evodroid.util.ImageHelper;
-import com.sonorth.evodroid.util.AppHtml;
-import com.sonorth.evodroid.util.AppImageSpan;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 
@@ -39,6 +32,14 @@ import android.provider.MediaStore.Video;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
+
+import com.sonorth.evodroid.Posts;
+import com.sonorth.evodroid.R;
+import com.sonorth.evodroid.b2evolution;
+import com.sonorth.evodroid.util.AppHtml;
+import com.sonorth.evodroid.util.AppImageSpan;
+import com.sonorth.evodroid.util.EscapeUtils;
+import com.sonorth.evodroid.util.ImageHelper;
 
 public class Post {
 
@@ -428,7 +429,7 @@ public class Post {
 	}
 
 	public static class uploadPostTask extends
-			AsyncTask<Post, Boolean, Boolean> {
+	AsyncTask<Post, Boolean, Boolean> {
 
 		private Post post;
 		String error = "";
@@ -461,11 +462,11 @@ public class Post {
 						.getText(R.string.upload_failed).toString();
 				if (mediaError)
 					errorText = context.getResources().getText(R.string.media)
-							+ " "
-							+ context.getResources().getText(R.string.error);
+					+ " "
+					+ context.getResources().getText(R.string.error);
 				n.setLatestEventInfo(context, (mediaError) ? errorText
 						: context.getResources()
-								.getText(R.string.upload_failed), postOrPage
+						.getText(R.string.upload_failed), postOrPage
 						+ " " + errorText + ": " + error, pendingIntent);
 
 				nm.notify(notificationID, n); // needs a unique id
@@ -606,7 +607,7 @@ public class Post {
 									} else {
 										if (x == 0)
 											descriptionContent = descriptionContent
-													.replace(tag, "");
+											.replace(tag, "");
 										else
 											moreContent = moreContent.replace(
 													tag, "");
@@ -642,9 +643,9 @@ public class Post {
 				String tagline = "";
 
 				if (globalSettings != null) {
-					if (globalSettings.get("tagline_flag").toString()
-							.equals("1")) {
-						taglineValue = true;
+					if (globalSettings.get("tagline_flag") != null) {
+						if (globalSettings.get("tagline_flag").toString().equals("1"))
+							taglineValue = true;
 					}
 
 					if (taglineValue) {
@@ -660,11 +661,11 @@ public class Post {
 					}
 				}
 			}
-			
+
 			contentStruct.put("post_type", (post.isPage) ? "page" : "post");
 			contentStruct.put("title", post.title);
 			contentStruct.put("wp_post_format", post.getWP_post_format());
-			
+
 			long pubDate = post.date_created_gmt;
 			if (pubDate != 0) {
 				Date date_created_gmt = new Date(pubDate);
@@ -708,8 +709,8 @@ public class Post {
 			Double latitude = 0.0;
 			Double longitude = 0.0;
 			if (!post.isPage) {
-				latitude = (Double) post.getLatitude();
-				longitude = (Double) post.getLongitude();
+				latitude = post.getLatitude();
+				longitude = post.getLongitude();
 
 				if (latitude > 0) {
 					HashMap<Object, Object> hLatitude = new HashMap<Object, Object>();
@@ -757,12 +758,12 @@ public class Post {
 
 			if (post.isLocalDraft() && !post.uploaded)
 				params = new Object[] { post.blog.getBlogId(),
-						post.blog.getUsername(), post.blog.getPassword(),
-						contentStruct, publishThis };
+					post.blog.getUsername(), post.blog.getPassword(),
+					contentStruct, publishThis };
 			else
 				params = new Object[] { post.getPostid(),
-						post.blog.getUsername(), post.blog.getPassword(),
-						contentStruct, publishThis };
+					post.blog.getUsername(), post.blog.getPassword(),
+					contentStruct, publishThis };
 
 			try {
 				client.call(
@@ -815,6 +816,17 @@ public class Post {
 				if (curImagePath.contains("video")) {
 					video = true;
 				}
+
+				//create temp file for media upload
+				String tempFileName = "b2evo-" + System.currentTimeMillis();
+				try {
+					context.openFileOutput(tempFileName, Context.MODE_PRIVATE);
+				} catch (FileNotFoundException e) {
+					error = "Could not create temp file for media upload.";
+					return null;
+				}
+
+				File tempFile = context.getFileStreamPath(tempFileName);
 
 				if (video) { // upload the video
 
@@ -895,7 +907,7 @@ public class Post {
 					Object result = null;
 
 					try {
-						result = (Object) client.call("wp.uploadFile", params);
+						result = (Object) client.callUploadFile("wp.uploadFile", params, tempFile);
 					} catch (XMLRPCException e) {
 						String mediaErrorMsg = e.getLocalizedMessage();
 						if (video) {
@@ -1023,7 +1035,7 @@ public class Post {
 												String.valueOf(i == 0 ? mf
 														.getWidth() : post.blog
 														.getScaledImageWidth()),
-												orientation, false);
+														orientation, false);
 
 								if (finalBytes == null) {
 									error = context.getResources()
@@ -1051,8 +1063,8 @@ public class Post {
 							Object result = null;
 
 							try {
-								result = (Object) client.call("wp.uploadFile",
-										params);
+								result = (Object) client.callUploadFile("wp.uploadFile",
+										params, tempFile);
 							} catch (XMLRPCException e) {
 								error = e.getMessage();
 								return null;
@@ -1108,7 +1120,7 @@ public class Post {
 								} else {
 									if (i == 0
 											&& (post.blog.isFullSizeImage() == false && !post.blog
-													.isScaledImage())) {
+											.isScaledImage())) {
 										content = content + "<img title=\""
 												+ mf.getTitle() + "\" "
 												+ alignmentCSS
@@ -1126,7 +1138,7 @@ public class Post {
 														mf.getWidth(),
 														EscapeUtils.escapeHtml(mf
 																.getCaption()),
-														content);
+																content);
 									}
 								}
 							}

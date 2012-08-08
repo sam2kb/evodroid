@@ -1,9 +1,30 @@
 package com.sonorth.evodroid;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.HttpHostConnectException;
-import com.sonorth.evodroid.util.EscapeUtils;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlrpc.android.Base64;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 import org.xmlrpc.android.XMLRPCFault;
@@ -27,6 +48,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,24 +56,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.sonorth.evodroid.util.EscapeUtils;
 
 public class AddAccount extends Activity {
 	private XMLRPCClient client;
@@ -77,9 +83,14 @@ public class AddAccount extends Activity {
 			b2evolution.DB = new b2evolutionDB(this);
 
 		Bundle extras = getIntent().getExtras();
-
 		if (extras != null) {
 			evonet = extras.getBoolean("evonet", false);
+			String username = extras.getString("username");
+			if (username != null)
+			{
+				EditText usernameET = (EditText) findViewById(R.id.username);
+				usernameET.setText(username);
+			}
 		}
 
 		if (evonet) {
@@ -172,11 +183,11 @@ public class AddAccount extends Activity {
 					R.string.url_username_password_required));
 			dialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+				public void onClick(DialogInterface dialog,
+						int whichButton) {
 
-						}
-					});
+				}
+			});
 			dialogBuilder.setCancelable(true);
 			dialogBuilder.create().show();
 		} else if (invalidURL) {
@@ -184,16 +195,16 @@ public class AddAccount extends Activity {
 			AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
 					AddAccount.this);
 			dialogBuilder
-					.setTitle(getResources().getText(R.string.invalid_url));
+			.setTitle(getResources().getText(R.string.invalid_url));
 			dialogBuilder.setMessage(getResources().getText(
 					R.string.invalid_url_message));
 			dialogBuilder.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,
-								int whichButton) {
+				public void onClick(DialogInterface dialog,
+						int whichButton) {
 
-						}
-					});
+				}
+			});
 			dialogBuilder.setCancelable(true);
 			dialogBuilder.create().show();
 		} else {
@@ -212,6 +223,8 @@ public class AddAccount extends Activity {
 
 			if (rsdUrl != null) {
 				xmlrpcURL = getXMLRPCUrl(rsdUrl);
+				if (xmlrpcURL == null)
+					xmlrpcURL = rsdUrl.replace("?rsd", "");
 			} else {
 				isCustomURL = false;
 				// try the user entered path
@@ -236,7 +249,7 @@ public class AddAccount extends Activity {
 					}
 				}
 			}
-			
+
 			if (xmlrpcURL == null) {
 				pd.dismiss();
 				AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
@@ -246,299 +259,299 @@ public class AddAccount extends Activity {
 						R.string.no_site_error));
 				dialogBuilder.setPositiveButton("OK",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
+					public void onClick(DialogInterface dialog,
+							int whichButton) {
 
-							}
-						});
+					}
+				});
 				dialogBuilder.setCancelable(true);
 				dialogBuilder.create().show();
 			} else {
 				// verify settings
 				client = new XMLRPCClient(xmlrpcURL, httpuser, httppassword);
-	
+
 				XMLRPCMethod method = new XMLRPCMethod("wp.getUsersBlogs",
 						new XMLRPCMethodCallback() {
-							@SuppressWarnings("unchecked")
-							public void callFinished(Object[] result) {
-	
-								final String[] blogNames = new String[result.length];
-								final String[] urls = new String[result.length];
-								final int[] blogIds = new int[result.length];
-								final boolean[] evonets = new boolean[result.length];
-								final String[] appVersions = new String[result.length];
-								HashMap<Object, Object> contentHash = new HashMap<Object, Object>();
-	
-								// loop this!
-								for (int ctr = 0; ctr < result.length; ctr++) {
-									contentHash = (HashMap<Object, Object>) result[ctr];
-									// check if this blog is already set up
-									boolean match = false;
-									String matchBlogName = contentHash.get(
-											"blogName").toString();
-									if (matchBlogName.length() == 0) {
-										matchBlogName = contentHash.get("url")
-												.toString();
+					@SuppressWarnings("unchecked")
+					public void callFinished(Object[] result) {
+
+						final String[] blogNames = new String[result.length];
+						final String[] urls = new String[result.length];
+						final int[] blogIds = new int[result.length];
+						final boolean[] evonets = new boolean[result.length];
+						final String[] appVersions = new String[result.length];
+						HashMap<Object, Object> contentHash = new HashMap<Object, Object>();
+
+						// loop this!
+						for (int ctr = 0; ctr < result.length; ctr++) {
+							contentHash = (HashMap<Object, Object>) result[ctr];
+							// check if this blog is already set up
+							boolean match = false;
+							String matchBlogName = contentHash.get(
+									"blogName").toString();
+							if (matchBlogName.length() == 0) {
+								matchBlogName = contentHash.get("url")
+										.toString();
+							}
+							match = b2evolution.DB.checkMatch(
+									matchBlogName,
+									contentHash.get("xmlrpc")
+									.toString(), username);
+							if (!match) {
+								blogNames[blogCtr] = matchBlogName;
+								if (isCustomURL)
+									urls[blogCtr] = blogURL;
+								else
+									urls[blogCtr] = contentHash.get(
+											"xmlrpc").toString();
+								blogIds[blogCtr] = Integer
+										.parseInt(contentHash.get(
+												"blogid").toString());
+								String blogURL = urls[blogCtr];
+
+								aBlogNames.add(EscapeUtils
+										.unescapeHtml(blogNames[blogCtr]));
+
+								boolean evonetFlag = false;
+								// check for b2evo.net
+								if (blogURL.toLowerCase().contains(
+										"b2evo.net")) {
+									evonetFlag = true;
+								}
+								evonets[blogCtr] = evonetFlag;
+
+								// attempt to get the software version
+								String appVersion = "";
+								if (!evonetFlag) {
+									HashMap<String, String> hPost = new HashMap<String, String>();
+									hPost.put("software_version",
+											"software_version");
+									Object[] vParams = { 1, username,
+											password, hPost };
+									Object versionResult = new Object();
+									try {
+										versionResult = client
+												.call("wp.getOptions",
+														vParams);
+									} catch (XMLRPCException e) {
 									}
-									match = b2evolution.DB.checkMatch(
-											matchBlogName,
-											contentHash.get("xmlrpc")
-													.toString(), username);
-									if (!match) {
-										blogNames[blogCtr] = matchBlogName;
-										if (isCustomURL)
-											urls[blogCtr] = blogURL;
-										else
-											urls[blogCtr] = contentHash.get(
-													"xmlrpc").toString();
-										blogIds[blogCtr] = Integer
-												.parseInt(contentHash.get(
-														"blogid").toString());
-										String blogURL = urls[blogCtr];
-	
-										aBlogNames.add(EscapeUtils
-												.unescapeHtml(blogNames[blogCtr]));
-	
-										boolean evonetFlag = false;
-										// check for b2evo.net
-										if (blogURL.toLowerCase().contains(
-												"b2evo.net")) {
-											evonetFlag = true;
+
+									if (versionResult != null) {
+										try {
+											contentHash = (HashMap<Object, Object>) versionResult;
+											HashMap<?, ?> sv = (HashMap<?, ?>) contentHash
+													.get("software_version");
+											appVersion = sv.get("value")
+													.toString();
+										} catch (Exception e) {
 										}
-										evonets[blogCtr] = evonetFlag;
-	
-										// attempt to get the software version
-										String appVersion = "";
-										if (!evonetFlag) {
-											HashMap<String, String> hPost = new HashMap<String, String>();
-											hPost.put("software_version",
-													"software_version");
-											Object[] vParams = { 1, username,
-													password, hPost };
-											Object versionResult = new Object();
-											try {
-												versionResult = (Object) client
-														.call("wp.getOptions",
-																vParams);
-											} catch (XMLRPCException e) {
-											}
-	
-											if (versionResult != null) {
-												try {
-													contentHash = (HashMap<Object, Object>) versionResult;
-													HashMap<?, ?> sv = (HashMap<?, ?>) contentHash
-															.get("software_version");
-													appVersion = sv.get("value")
-															.toString();
-												} catch (Exception e) {
-												}
-											}
-										} else {
-											appVersion = "5.0";
-										}
-	
-										appVersions[blogCtr] = appVersion;
-	
-										blogCtr++;
 									}
-								} // end loop
-								pd.dismiss();
-								if (blogCtr == 0) {
-									AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
-											AddAccount.this);
-									dialogBuilder.setTitle("No Blogs Found");
-									String additionalText = "";
-									if (result.length > 0) {
-										additionalText = " additional ";
-									}
-									dialogBuilder
-											.setMessage("No "
-													+ additionalText
-													+ "blogs were found for that account.");
-									dialogBuilder
-											.setPositiveButton(
-													"OK",
-													new DialogInterface.OnClickListener() {
-														public void onClick(
-																DialogInterface dialog,
-																int whichButton) {
-															// Just close the
-															// window.
-			
-														}
-													});
-									dialogBuilder.setCancelable(true);
-									dialogBuilder.create().show();
 								} else {
-									// take them to the blog selection screen if
-									// there's more than one blog
-									if (blogCtr > 1) {
-	
-										LayoutInflater inflater = (LayoutInflater) AddAccount.this
-												.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-										final ListView lv = (ListView) inflater
-												.inflate(
-														R.layout.select_blogs_list,
-														null);
-										lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-										lv.setItemsCanFocus(false);
-	
-										ArrayAdapter<CharSequence> blogs = new ArrayAdapter<CharSequence>(
-												AddAccount.this,
-												R.layout.blogs_row, aBlogNames);
-	
-										lv.setAdapter(blogs);
-	
-										AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
-												AddAccount.this);
-										dialogBuilder.setTitle("Select Blogs");
-										dialogBuilder.setView(lv);
-										dialogBuilder
-												.setNegativeButton(
-														"Add Selected",
-														new DialogInterface.OnClickListener() {
-															public void onClick(
-																	DialogInterface dialog,
-																	int whichButton) {
-																SparseBooleanArray selectedItems = lv
-																		.getCheckedItemPositions();
-																for (int i = 0; i < selectedItems
-																		.size(); i++) {
-																	if (selectedItems
-																			.get(selectedItems
-																					.keyAt(i)) == true) {
-																		int rowID = selectedItems
-																				.keyAt(i);
-																		long blogID = b2evolution.DB
-																				.addAccount(
-																						urls[rowID],
-																						blogNames[rowID],
-																						username,
-																						password,
-																						httpuser,
-																						httppassword,
-																						"Above Text",
-																						true,
-																						false,
-																						"500",
-																						5,
-																						false,
-																						blogIds[rowID],
-																						evonets[rowID],
-																						appVersions[rowID]);
-																		success = blogID > 0;
-																	}
-																}
-																Bundle bundle = new Bundle();
-																bundle.putString(
-																		"returnStatus",
-																		"SAVE");
-																Intent mIntent = new Intent();
-																mIntent.putExtras(bundle);
-																setResult(
-																		RESULT_OK,
-																		mIntent);
-																finish();
-	
-															}
-														});
-										dialogBuilder
-												.setPositiveButton(
-														"Add All",
-														new DialogInterface.OnClickListener() {
-															public void onClick(
-																	DialogInterface dialog,
-																	int whichButton) {
-																for (int i = 0; i < blogCtr; i++) {
-																	long blogID = b2evolution.DB
-																			.addAccount(
-																					urls[i],
-																					blogNames[i],
-																					username,
-																					password,
-																					httpuser,
-																					httppassword,
-																					"Above Text",
-																					true,
-																					false,
-																					"500",
-																					5,
-																					false,
-																					blogIds[i],
-																					evonets[i],
-																					appVersions[i]);
-																	success = blogID > 0;
-																}
-																Bundle bundle = new Bundle();
-																bundle.putString(
-																		"returnStatus",
-																		"SAVE");
-																Intent mIntent = new Intent();
-																mIntent.putExtras(bundle);
-																setResult(
-																		RESULT_OK,
-																		mIntent);
-																finish();
-															}
-														});
-										dialogBuilder.setCancelable(true);
-										AlertDialog ad = dialogBuilder.create();
-										ad.setInverseBackgroundForced(true);
-										ad.show();
-	
-										final Button addSelected = ad
-												.getButton(AlertDialog.BUTTON_NEGATIVE);
-										addSelected.setEnabled(false);
-	
-										lv.setOnItemClickListener(new OnItemClickListener() {
-											public void onItemClick(
-													AdapterView<?> arg0,
-													View arg1, int arg2,
-													long arg3) {
+									appVersion = "5.0";
+								}
+
+								appVersions[blogCtr] = appVersion;
+
+								blogCtr++;
+							}
+						} // end loop
+						pd.dismiss();
+						if (blogCtr == 0) {
+							AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
+									AddAccount.this);
+							dialogBuilder.setTitle("No Blogs Found");
+							String additionalText = "";
+							if (result.length > 0) {
+								additionalText = " additional ";
+							}
+							dialogBuilder
+							.setMessage("No "
+									+ additionalText
+									+ "blogs were found for that account.");
+							dialogBuilder
+							.setPositiveButton(
+									"OK",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int whichButton) {
+											// Just close the
+											// window.
+
+										}
+									});
+							dialogBuilder.setCancelable(true);
+							dialogBuilder.create().show();
+						} else {
+							// take them to the blog selection screen if
+							// there's more than one blog
+							if (blogCtr > 1) {
+
+								LayoutInflater inflater = (LayoutInflater) AddAccount.this
+										.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+								final ListView lv = (ListView) inflater
+										.inflate(
+												R.layout.select_blogs_list,
+												null);
+								lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+								lv.setItemsCanFocus(false);
+
+								ArrayAdapter<CharSequence> blogs = new ArrayAdapter<CharSequence>(
+										AddAccount.this,
+										R.layout.blogs_row, aBlogNames);
+
+								lv.setAdapter(blogs);
+
+								AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
+										AddAccount.this);
+								dialogBuilder.setTitle("Select Blogs");
+								dialogBuilder.setView(lv);
+								dialogBuilder
+								.setNegativeButton(
+										"Add Selected",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int whichButton) {
 												SparseBooleanArray selectedItems = lv
 														.getCheckedItemPositions();
-												boolean isChecked = false;
 												for (int i = 0; i < selectedItems
 														.size(); i++) {
 													if (selectedItems
 															.get(selectedItems
 																	.keyAt(i)) == true) {
-														isChecked = true;
+														int rowID = selectedItems
+																.keyAt(i);
+														long blogID = b2evolution.DB
+																.addAccount(
+																		urls[rowID],
+																		blogNames[rowID],
+																		username,
+																		password,
+																		httpuser,
+																		httppassword,
+																		"Above Text",
+																		true,
+																		false,
+																		"500",
+																		5,
+																		false,
+																		blogIds[rowID],
+																		evonets[rowID],
+																		appVersions[rowID]);
+														success = blogID > 0;
 													}
 												}
-												if (!isChecked) {
-													addSelected
-															.setEnabled(false);
-												} else {
-													addSelected
-															.setEnabled(true);
-												}
+												Bundle bundle = new Bundle();
+												bundle.putString(
+														"returnStatus",
+														"SAVE");
+												Intent mIntent = new Intent();
+												mIntent.putExtras(bundle);
+												setResult(
+														RESULT_OK,
+														mIntent);
+												finish();
+
 											}
 										});
-	
-									} else {
-										long blogID = b2evolution.DB
-												.addAccount(urls[0],
-														blogNames[0], username,
-														password, httpuser,
-														httppassword,
-														"Above Text", true,
-														false, "500", 5, false,
-														blogIds[0], evonets[0],
-														appVersions[0]);
-										success = blogID > 0;
-										Bundle bundle = new Bundle();
-										bundle.putString("returnStatus", "SAVE");
-										Intent mIntent = new Intent();
-										mIntent.putExtras(bundle);
-										setResult(RESULT_OK, mIntent);
-										finish();
+								dialogBuilder
+								.setPositiveButton(
+										"Add All",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int whichButton) {
+												for (int i = 0; i < blogCtr; i++) {
+													long blogID = b2evolution.DB
+															.addAccount(
+																	urls[i],
+																	blogNames[i],
+																	username,
+																	password,
+																	httpuser,
+																	httppassword,
+																	"Above Text",
+																	true,
+																	false,
+																	"500",
+																	5,
+																	false,
+																	blogIds[i],
+																	evonets[i],
+																	appVersions[i]);
+													success = blogID > 0;
+												}
+												Bundle bundle = new Bundle();
+												bundle.putString(
+														"returnStatus",
+														"SAVE");
+												Intent mIntent = new Intent();
+												mIntent.putExtras(bundle);
+												setResult(
+														RESULT_OK,
+														mIntent);
+												finish();
+											}
+										});
+								dialogBuilder.setCancelable(true);
+								AlertDialog ad = dialogBuilder.create();
+								ad.setInverseBackgroundForced(true);
+								ad.show();
+
+								final Button addSelected = ad
+										.getButton(AlertDialog.BUTTON_NEGATIVE);
+								addSelected.setEnabled(false);
+
+								lv.setOnItemClickListener(new OnItemClickListener() {
+									public void onItemClick(
+											AdapterView<?> arg0,
+											View arg1, int arg2,
+											long arg3) {
+										SparseBooleanArray selectedItems = lv
+												.getCheckedItemPositions();
+										boolean isChecked = false;
+										for (int i = 0; i < selectedItems
+												.size(); i++) {
+											if (selectedItems
+													.get(selectedItems
+															.keyAt(i)) == true) {
+												isChecked = true;
+											}
+										}
+										if (!isChecked) {
+											addSelected
+											.setEnabled(false);
+										} else {
+											addSelected
+											.setEnabled(true);
+										}
 									}
-								}
+								});
+
+							} else {
+								long blogID = b2evolution.DB
+										.addAccount(urls[0],
+												blogNames[0], username,
+												password, httpuser,
+												httppassword,
+												"Above Text", true,
+												false, "500", 5, false,
+												blogIds[0], evonets[0],
+												appVersions[0]);
+								success = blogID > 0;
+								Bundle bundle = new Bundle();
+								bundle.putString("returnStatus", "SAVE");
+								Intent mIntent = new Intent();
+								mIntent.putExtras(bundle);
+								setResult(RESULT_OK, mIntent);
+								finish();
 							}
-						});
+						}
+					}
+				});
 				Object[] params = { username, password };
-	
+
 				method.call(params);
 			}
 		}
@@ -632,7 +645,7 @@ public class AddAccount extends Activity {
 											AddAccount.this,
 											getResources().getString(
 													R.string.invalid_login),
-											Toast.LENGTH_SHORT).show();
+													Toast.LENGTH_SHORT).show();
 								}
 							};
 							runOnUiThread(shake);
@@ -647,13 +660,13 @@ public class AddAccount extends Activity {
 							dialogBuilder.setMessage(message);
 							dialogBuilder.setPositiveButton("OK",
 									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int whichButton) {
-											// Just close the window.
+								public void onClick(
+										DialogInterface dialog,
+										int whichButton) {
+									// Just close the window.
 
-										}
-									});
+								}
+							});
 							dialogBuilder.setCancelable(true);
 							dialogBuilder.create().show();
 						}
@@ -682,13 +695,13 @@ public class AddAccount extends Activity {
 							dialogBuilder.setMessage(message);
 							dialogBuilder.setPositiveButton("OK",
 									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog,
-												int whichButton) {
-											// Just close the window.
+								public void onClick(
+										DialogInterface dialog,
+										int whichButton) {
+									// Just close the window.
 
-										}
-									});
+								}
+							});
 							dialogBuilder.setCancelable(true);
 							dialogBuilder.create().show();
 						}
@@ -843,8 +856,6 @@ public class AddAccount extends Activity {
 
 	private InputStream getResponse(String urlString) {
 		InputStream in = null;
-		int response = -1;
-
 		URL url = null;
 		try {
 			url = new URL(urlString);
@@ -852,35 +863,27 @@ public class AddAccount extends Activity {
 			e1.printStackTrace();
 			return null;
 		}
-		URLConnection conn = null;
-		try {
-			conn = url.openConnection();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			return null;
-		}
 
 		try {
-			HttpURLConnection httpConn = (HttpURLConnection) conn;
-			httpConn.setAllowUserInteraction(false);
-			httpConn.setInstanceFollowRedirects(true);
-			httpConn.setRequestMethod("GET");
-			httpConn.addRequestProperty("user-agent", "Mozilla/5.0");
-			if (!httpuser.equals("")) {
-				String credentials = httpuser + ":" + httppassword;
-				String encoded = Base64.encodeBytes(credentials.getBytes());
-				httpConn.setRequestProperty("Authorization", "Basic " + encoded);
-			}
-			httpConn.connect();
+			HttpGet httpRequest = new HttpGet(url.toURI());
+			HttpClient httpclient = new DefaultHttpClient();
 
-			response = httpConn.getResponseCode();
-			if (response == HttpURLConnection.HTTP_OK) {
-				in = httpConn.getInputStream();
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
+			HttpResponse response = httpclient.execute(httpRequest);
+			HttpEntity entity = response.getEntity();
+
+			BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entity);
+			in = bufHttpEntity.getContent();
+			in.close();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 		return in;
 	}
 }

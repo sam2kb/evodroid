@@ -2,11 +2,11 @@
 
 package com.sonorth.evodroid.models;
 
-import com.sonorth.evodroid.b2evolution;
+import java.util.Vector;
 
 import android.content.Context;
 
-import java.util.Vector;
+import com.sonorth.evodroid.b2evolution;
 
 public class Blog {
 	

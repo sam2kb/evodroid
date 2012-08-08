@@ -1,7 +1,7 @@
 package com.sonorth.evodroid;
 
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.util.EscapeUtils;
+import java.util.HashMap;
+import java.util.Vector;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -25,8 +25,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Vector;
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.util.BlackBerryUtils;
+import com.sonorth.evodroid.util.EscapeUtils;
 
 public class Preferences extends Activity {
 	/** Called when the activity is first created. */
@@ -40,7 +41,7 @@ public class Preferences extends Activity {
 		super.onCreate(icicle);
 
 		setTitle(getResources().getText(R.string.preferences));
-		
+
 		if (b2evolution.DB == null)
 			b2evolution.DB = new b2evolutionDB(this);
 		if (b2evolution.currentBlog == null) {
@@ -187,7 +188,7 @@ public class Preferences extends Activity {
 							"30 Minutes", "1 Hour", "3 Hours", "6 Hours",
 							"12 Hours", "Daily" });
 			sIntervalArrayAdapter
-					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			sInterval.setAdapter(sIntervalArrayAdapter);
 			String interval = b2evolution.DB.getInterval(this);
 
@@ -282,7 +283,12 @@ public class Preferences extends Activity {
 			taglineET.setLayoutParams(taglineParams);
 			if (tagline != null) {
 				if (tagline.equals("")) {
-					taglineET.setText(getResources().getText(R.string.posted_from));
+					if( BlackBerryUtils.getInstance().isBlackBerry() )
+						taglineET.setText(getResources().getText(
+								R.string.posted_from_blackberry));
+					else
+						taglineET.setText(getResources().getText(
+								R.string.posted_from));
 				} else {
 					taglineET.setText(tagline);
 				}
@@ -336,8 +342,8 @@ public class Preferences extends Activity {
 
 					int listItemCount = cbLayout.getChildCount();
 					for (int i = 0; i < listItemCount; i++) {
-						CheckBox cbox = (CheckBox) ((View) cbLayout
-								.getChildAt(i));
+						CheckBox cbox = (CheckBox) cbLayout
+								.getChildAt(i);
 						int id = cbox.getId();
 						if (cbox.isChecked()) {
 							checkCtr++;
@@ -351,8 +357,8 @@ public class Preferences extends Activity {
 
 					int noOptionsItemCount = nOptionsLayout.getChildCount();
 					for (int i = 0; i < noOptionsItemCount; i++) {
-						CheckBox cbox = (CheckBox) ((View) nOptionsLayout
-								.getChildAt(i));
+						CheckBox cbox = (CheckBox) nOptionsLayout
+								.getChildAt(i);
 						if (cbox.getTag().equals("soundCB")) {
 							sound = cbox.isChecked();
 						} else if (cbox.getTag().equals("vibrateCB")) {
@@ -362,12 +368,12 @@ public class Preferences extends Activity {
 						}
 					}
 
-					CheckBox tagFlag = (CheckBox) ((View) section2
-							.getChildAt(1));
+					CheckBox tagFlag = (CheckBox) section2
+							.getChildAt(1);
 					tagValue = tagFlag.isChecked();
 
-					EditText taglineET = (EditText) ((View) section2
-							.getChildAt(2));
+					EditText taglineET = (EditText) section2
+							.getChildAt(2);
 					String taglineText = taglineET.getText().toString();
 
 					b2evolution.DB.updateNotificationSettings(sInterval

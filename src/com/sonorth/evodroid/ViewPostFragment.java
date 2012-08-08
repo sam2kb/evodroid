@@ -1,10 +1,5 @@
 package com.sonorth.evodroid;
 
-import com.sonorth.evodroid.models.Post;
-import com.sonorth.evodroid.util.EscapeUtils;
-import com.sonorth.evodroid.util.StringHelper;
-import com.sonorth.evodroid.util.AppHtml;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +10,11 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.sonorth.evodroid.models.Post;
+import com.sonorth.evodroid.util.AppHtml;
+import com.sonorth.evodroid.util.EscapeUtils;
+import com.sonorth.evodroid.util.StringHelper;
 
 public class ViewPostFragment extends Fragment {
 	/** Called when the activity is first created. */

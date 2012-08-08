@@ -2,14 +2,6 @@ package com.sonorth.evodroid;
 
 import java.util.HashMap;
 
-import com.sonorth.evodroid.ViewCommentFragment.OnCommentStatusChangeListener;
-import com.sonorth.evodroid.ViewComments.OnAnimateRefreshButtonListener;
-import com.sonorth.evodroid.ViewComments.OnCommentSelectedListener;
-import com.sonorth.evodroid.ViewComments.OnContextCommentStatusChangeListener;
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.models.Comment;
-import com.sonorth.evodroid.util.AppTitleBar;
-import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 
@@ -28,6 +20,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.sonorth.evodroid.ViewCommentFragment.OnCommentStatusChangeListener;
+import com.sonorth.evodroid.ViewComments.OnAnimateRefreshButtonListener;
+import com.sonorth.evodroid.ViewComments.OnCommentSelectedListener;
+import com.sonorth.evodroid.ViewComments.OnContextCommentStatusChangeListener;
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.models.Comment;
+import com.sonorth.evodroid.util.AppTitleBar;
+import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
 
 public class Comments extends FragmentActivity implements
 		OnCommentSelectedListener, OnCommentStatusChangeListener,

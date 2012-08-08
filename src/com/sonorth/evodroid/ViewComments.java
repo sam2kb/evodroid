@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
-import com.sonorth.evodroid.models.Comment;
-import com.sonorth.evodroid.util.EscapeUtils;
-import com.sonorth.evodroid.util.AppAlertDialogFragment;
 import org.xmlrpc.android.ApiHelper;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
@@ -57,6 +54,9 @@ import com.commonsware.cwac.cache.SimpleWebImageCache;
 import com.commonsware.cwac.thumbnail.ThumbnailAdapter;
 import com.commonsware.cwac.thumbnail.ThumbnailBus;
 import com.commonsware.cwac.thumbnail.ThumbnailMessage;
+import com.sonorth.evodroid.models.Comment;
+import com.sonorth.evodroid.util.AppAlertDialogFragment;
+import com.sonorth.evodroid.util.EscapeUtils;
 
 public class ViewComments extends ListFragment {
 	private static final int[] IMAGE_IDS = { R.id.avatar };
@@ -228,7 +228,7 @@ public class ViewComments extends ListFragment {
 
 				Object result = null;
 				try {
-					result = (Object) client.call("wp.editComment", params);
+					result = client.call("wp.editComment", params);
 					boolean bResult = Boolean.parseBoolean(result.toString());
 					if (bResult) {
 						checkedComments.set(i, "false");
@@ -259,14 +259,16 @@ public class ViewComments extends ListFragment {
 					thumbs.notifyDataSetChanged();
 				} else {
 					// there was an xmlrpc error
-					checkedCommentTotal = 0;
-					hideModerationBar();
-					thumbs.notifyDataSetChanged();
-					FragmentTransaction ft = getFragmentManager()
-							.beginTransaction();
-					AppAlertDialogFragment alert = AppAlertDialogFragment
-							.newInstance(moderateErrorMsg);
-					alert.show(ft, "alert");
+					if (!getActivity().isFinishing()) {
+						checkedCommentTotal = 0;
+						hideModerationBar();
+						thumbs.notifyDataSetChanged();
+						FragmentTransaction ft = getFragmentManager()
+								.beginTransaction();
+						AppAlertDialogFragment alert = AppAlertDialogFragment
+								.newInstance(moderateErrorMsg);
+						alert.show(ft, "alert");
+					}
 					moderateErrorMsg = "";
 				}
 			}
@@ -315,11 +317,13 @@ public class ViewComments extends ListFragment {
 					refreshComments(false, false, false);
 				} else {
 					// error occurred during delete request
-					FragmentTransaction ft = getFragmentManager()
-							.beginTransaction();
-					AppAlertDialogFragment alert = AppAlertDialogFragment
-							.newInstance(moderateErrorMsg);
-					alert.show(ft, "alert");
+					if (!getActivity().isFinishing()) {
+						FragmentTransaction ft = getFragmentManager()
+								.beginTransaction();
+						AppAlertDialogFragment alert = AppAlertDialogFragment
+								.newInstance(moderateErrorMsg);
+						alert.show(ft, "alert");
+					}
 				}
 			}
 		};
@@ -375,9 +379,9 @@ public class ViewComments extends ListFragment {
 				model.add(new Comment(postID, commentID, i, author,
 						dateCreatedFormatted, comment, status, postTitle,
 						authorURL, authorEmail, URI
-								.create("http://gravatar.com/avatar/"
-										+ getMd5Hash(authorEmail.trim())
-										+ "?s=60&d=404")));
+						.create("http://gravatar.com/avatar/"
+								+ getMd5Hash(authorEmail.trim())
+								+ "?s=60&d=404")));
 			}
 
 			if (!refreshOnly) {
@@ -408,26 +412,26 @@ public class ViewComments extends ListFragment {
 						onCommentSelectedListener.onCommentSelected(comment);
 					}
 				});
-				
-//				listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-//
-//					@Override
-//					public boolean onItemLongClick(AdapterView<?> arg0,
-//							View view, int position, long id) {
-//						
-//						selectedPosition = position;
-//						Comment comment = model.get((int) id);
-//						onCommentSelectedListener.onCommentSelected(comment);
-//						
-//						Intent i = new Intent(
-//								getActivity().getApplicationContext(),
-//								EditComment.class);
-//						startActivityForResult(i, 0);
-//						
-//						return false;
-//					}
-//					
-//				});
+
+				//				listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+				//
+				//					@Override
+				//					public boolean onItemLongClick(AdapterView<?> arg0,
+				//							View view, int position, long id) {
+				//
+				//						selectedPosition = position;
+				//						Comment comment = model.get((int) id);
+				//						onCommentSelectedListener.onCommentSelected(comment);
+				//
+				//						Intent i = new Intent(
+				//								getActivity().getApplicationContext(),
+				//								EditComment.class);
+				//						startActivityForResult(i, 0);
+				//
+				//						return false;
+				//					}
+				//
+				//				});
 
 				listView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
 
@@ -449,14 +453,14 @@ public class ViewComments extends ListFragment {
 								getResources().getText(R.string.mark_approved));
 						menu.add(0, 1, 0,
 								getResources()
-										.getText(R.string.mark_unapproved));
+								.getText(R.string.mark_unapproved));
 						menu.add(0, 2, 0,
 								getResources().getText(R.string.mark_deprecated));
 						menu.add(0, 3, 0, getResources()
 								.getText(R.string.reply));
 						menu.add(0, 4, 0,
 								getResources().getText(R.string.delete));
-						menu.add(0, 5, 0, 
+						menu.add(0, 5, 0,
 								getResources().getText(R.string.edit));
 					}
 				});
@@ -471,7 +475,7 @@ public class ViewComments extends ListFragment {
 					if (model.size() > 0) {
 
 						selectedPosition = 0;
-						Comment aComment = model.get((int) 0);
+						Comment aComment = model.get(0);
 						onCommentSelectedListener.onCommentSelected(aComment);
 						thumbs.notifyDataSetChanged();
 
@@ -873,12 +877,14 @@ public class ViewComments extends ListFragment {
 						if (pd.isShowing()) {
 							pd.dismiss();
 						}
-						onAnimateRefreshButton.onAnimateRefreshButton(false);
-						FragmentTransaction ft = getFragmentManager()
-								.beginTransaction();
-						AppAlertDialogFragment alert = AppAlertDialogFragment
-								.newInstance(e.getLocalizedMessage());
-						alert.show(ft, "alert");
+						if (!getActivity().isFinishing()) {
+							onAnimateRefreshButton.onAnimateRefreshButton(false);
+							FragmentTransaction ft = getFragmentManager()
+									.beginTransaction();
+							AppAlertDialogFragment alert = AppAlertDialogFragment
+									.newInstance(e.getLocalizedMessage());
+							alert.show(ft, "alert");
+						}
 					}
 				});
 			} catch (final XMLRPCException e) {
@@ -887,12 +893,14 @@ public class ViewComments extends ListFragment {
 						if (pd.isShowing()) {
 							pd.dismiss();
 						}
-						onAnimateRefreshButton.onAnimateRefreshButton(false);
-						FragmentTransaction ft = getFragmentManager()
-								.beginTransaction();
-						AppAlertDialogFragment alert = AppAlertDialogFragment
-								.newInstance(e.getLocalizedMessage());
-						alert.show(ft, "alert");
+						if (!getActivity().isFinishing()) {
+							onAnimateRefreshButton.onAnimateRefreshButton(false);
+							FragmentTransaction ft = getFragmentManager()
+									.beginTransaction();
+							AppAlertDialogFragment alert = AppAlertDialogFragment
+									.newInstance(e.getLocalizedMessage());
+							alert.show(ft, "alert");
+						}
 					}
 				});
 			}
@@ -928,7 +936,7 @@ public class ViewComments extends ListFragment {
 		@Override
 		public void run() {
 			try {
-				final Object result = (Object) client.call(method, params);
+				final Object result = client.call(method, params);
 				handler.post(new Runnable() {
 					public void run() {
 						callBack.callFinished(result);
@@ -948,12 +956,14 @@ public class ViewComments extends ListFragment {
 			} catch (final XMLRPCException e) {
 				handler.post(new Runnable() {
 					public void run() {
-						getActivity().dismissDialog(ID_DIALOG_MODERATING);
-						FragmentTransaction ft = getFragmentManager()
-								.beginTransaction();
-						AppAlertDialogFragment alert = AppAlertDialogFragment
-								.newInstance(e.getLocalizedMessage());
-						alert.show(ft, "alert");
+						if (!getActivity().isFinishing()) {
+							getActivity().dismissDialog(ID_DIALOG_MODERATING);
+							FragmentTransaction ft = getFragmentManager()
+									.beginTransaction();
+							AppAlertDialogFragment alert = AppAlertDialogFragment
+									.newInstance(e.getLocalizedMessage());
+							alert.show(ft, "alert");
+						}
 					}
 				});
 			}
@@ -987,21 +997,21 @@ public class ViewComments extends ListFragment {
 			onCommentStatusChangeListener.onCommentStatusChanged("delete");
 			return true;
 		case 5:
-//			selectedPosition = position;
-//			Comment comment = model.get((int) id);
-//			onCommentSelectedListener.onCommentSelected(comment);
+			//			selectedPosition = position;
+			//			Comment comment = model.get((int) id);
+			//			onCommentSelectedListener.onCommentSelected(comment);
 			Intent i = new Intent(
 					getActivity().getApplicationContext(),
 					EditComment.class);
 			startActivityForResult(i, 0);
 			return true;
-			
+
 		}
 		return false;
 	}
 
 	class getRecentCommentsTask extends
-			AsyncTask<Void, Void, HashMap<Integer, HashMap<?, ?>>> {
+	AsyncTask<Void, Void, HashMap<Integer, HashMap<?, ?>>> {
 
 		protected void onPostExecute(
 				HashMap<Integer, HashMap<?, ?>> commentsResult) {
@@ -1019,14 +1029,14 @@ public class ViewComments extends ListFragment {
 						allComments.clear();
 						thumbs.notifyDataSetChanged();
 						onCommentStatusChangeListener
-								.onCommentStatusChanged("clear");
+						.onCommentStatusChanged("clear");
 						b2evolution.currentComment = null;
 						loadComments(false, false);
 					}
 				}
 
 				onAnimateRefreshButton.onAnimateRefreshButton(false);
-				if (!moderateErrorMsg.equals("")) {
+				if (!moderateErrorMsg.equals("") && !getActivity().isFinishing()) {
 					FragmentTransaction ft = getFragmentManager()
 							.beginTransaction();
 					AppAlertDialogFragment alert = AppAlertDialogFragment

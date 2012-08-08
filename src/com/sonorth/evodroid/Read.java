@@ -7,8 +7,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.util.EscapeUtils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -31,6 +29,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.util.EscapeUtils;
 
 public class Read extends Activity {
 	/** Called when the activity is first created. */

@@ -13,10 +13,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.util.AlertUtil;
-import com.sonorth.evodroid.util.AppTitleBar;
-import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
 import org.xmlrpc.android.ApiHelper;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
@@ -41,6 +37,11 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.util.AlertUtil;
+import com.sonorth.evodroid.util.AppTitleBar;
+import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
 
 public class Dashboard extends Activity {
 	public Vector<?> accounts;

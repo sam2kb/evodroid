@@ -6,13 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import com.sonorth.evodroid.ViewPostFragment.OnDetailPostActionListener;
-import com.sonorth.evodroid.ViewPosts.OnPostActionListener;
-import com.sonorth.evodroid.ViewPosts.OnPostSelectedListener;
-import com.sonorth.evodroid.ViewPosts.OnRefreshListener;
-import com.sonorth.evodroid.models.Post;
-import com.sonorth.evodroid.util.AppTitleBar;
-import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 
@@ -34,6 +27,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.sonorth.evodroid.ViewPostFragment.OnDetailPostActionListener;
+import com.sonorth.evodroid.ViewPosts.OnPostActionListener;
+import com.sonorth.evodroid.ViewPosts.OnPostSelectedListener;
+import com.sonorth.evodroid.ViewPosts.OnRefreshListener;
+import com.sonorth.evodroid.models.Post;
+import com.sonorth.evodroid.util.AppTitleBar;
+import com.sonorth.evodroid.util.AppTitleBar.OnBlogChangedListener;
 
 public class Posts extends FragmentActivity implements OnPostSelectedListener,
 		OnRefreshListener, OnPostActionListener, OnDetailPostActionListener {

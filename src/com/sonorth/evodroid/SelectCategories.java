@@ -1,7 +1,10 @@
 package com.sonorth.evodroid;
 
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.util.EscapeUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 
@@ -23,10 +26,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.util.EscapeUtils;
 
 
 public class SelectCategories extends ListActivity {

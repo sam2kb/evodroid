@@ -1,23 +1,23 @@
 package com.commonsware.cwac.thumbnail;
 
-import com.commonsware.cwac.adapter.AdapterWrapper;
-import com.commonsware.cwac.cache.SimpleWebImageCache;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+
+import com.commonsware.cwac.adapter.AdapterWrapper;
+import com.commonsware.cwac.cache.SimpleWebImageCache;
 
 public class ThumbnailAdapter extends AdapterWrapper {
 	private static final String TAG="ThumbnailAdapter";

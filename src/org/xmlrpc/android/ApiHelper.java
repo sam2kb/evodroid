@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.json.JSONObject;
-import com.sonorth.evodroid.b2evolution;
-import com.sonorth.evodroid.models.Blog;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.DateUtils;
+
+import com.sonorth.evodroid.b2evolution;
+import com.sonorth.evodroid.models.Blog;
 
 public class ApiHelper {
 	/** Called when the activity is first created. */

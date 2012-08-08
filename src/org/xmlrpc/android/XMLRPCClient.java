@@ -27,13 +27,14 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
-import com.sonorth.evodroid.Constants;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Log;
 import android.util.Xml;
+
+import com.sonorth.evodroid.Constants;
 
 public class XMLRPCClient {
 	private static final String TAG_METHOD_CALL = "methodCall";
@@ -57,53 +58,53 @@ public class XMLRPCClient {
 	public XMLRPCClient(URI uri, String httpuser, String httppasswd) {
 		postMethod = new HttpPost(uri);
 		postMethod.addHeader("Content-Type", "text/xml");
-		
+
 		postMethod.addHeader("charset", "UTF-8");
 		//UPDATE THE VERSION NUMBER BEFORE RELEASE! <3 Dan
 		postMethod.addHeader("User-Agent", "evodroid/" + Constants.versionNumber);
-		
+
 		httpParams = postMethod.getParams();
 		HttpProtocolParams.setUseExpectContinue(httpParams, false);
-		
+
 		//username & password not needed
 		UsernamePasswordCredentials creds = new UsernamePasswordCredentials(httpuser, httppasswd);
-		
+
 		//this gets connections working over https
 		if (uri.getScheme() != null){
-			if(uri.getScheme().equals("https")) { 
+			if(uri.getScheme().equals("https")) {
 				if(uri.getPort() == -1)
 					try {
 						client = new ConnectionClient(creds, 443);
 					} catch (KeyManagementException e) {
-						client = new ConnectionClient(creds); 
+						client = new ConnectionClient(creds);
 					} catch (NoSuchAlgorithmException e) {
-						client = new ConnectionClient(creds); 
+						client = new ConnectionClient(creds);
 					} catch (KeyStoreException e) {
-						client = new ConnectionClient(creds); 
+						client = new ConnectionClient(creds);
 					} catch (UnrecoverableKeyException e) {
-						client = new ConnectionClient(creds); 
+						client = new ConnectionClient(creds);
 					}
-					else
-						try {
-							client = new ConnectionClient(creds, uri.getPort());
-						} catch (KeyManagementException e) {
-							client = new ConnectionClient(creds); 
-						} catch (NoSuchAlgorithmException e) {
-							client = new ConnectionClient(creds); 
-						} catch (KeyStoreException e) {
-							client = new ConnectionClient(creds); 
-						} catch (UnrecoverableKeyException e) {
-							client = new ConnectionClient(creds); 
-						} 
-			} 
+				else
+					try {
+						client = new ConnectionClient(creds, uri.getPort());
+					} catch (KeyManagementException e) {
+						client = new ConnectionClient(creds);
+					} catch (NoSuchAlgorithmException e) {
+						client = new ConnectionClient(creds);
+					} catch (KeyStoreException e) {
+						client = new ConnectionClient(creds);
+					} catch (UnrecoverableKeyException e) {
+						client = new ConnectionClient(creds);
+					}
+			}
 			else {
-				client = new ConnectionClient(creds); 
+				client = new ConnectionClient(creds);
 			}
 		}
 		else{
 			client = new ConnectionClient(creds);
 		}
-		
+
 		serializer = Xml.newSerializer();
 	}
 
@@ -114,7 +115,7 @@ public class XMLRPCClient {
 	public XMLRPCClient(String url, String httpuser, String httppasswd) {
 		this(URI.create(url), httpuser, httppasswd);
 	}
-	
+
 	/**
 	 * Convenience XMLRPCClient constructor. Creates new instance based on server URL
 	 * @param XMLRPC server URL
@@ -134,9 +135,9 @@ public class XMLRPCClient {
 	 * @throws XMLRPCException
 	 */
 	public Object call(String method, Object[] params) throws XMLRPCException {
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
-	
+
 	/**
 	 * Convenience method call with no parameters
 	 * 
@@ -145,9 +146,9 @@ public class XMLRPCClient {
 	 * @throws XMLRPCException
 	 */
 	public Object call(String method) throws XMLRPCException {
-		return callXMLRPC(method, null);
+		return callXMLRPC(method, null, null);
 	}
-	
+
 	/**
 	 * Convenience method call with one parameter
 	 * 
@@ -158,11 +159,11 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0) throws XMLRPCException {
 		Object[] params = {
-			p0,
+				p0,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
-	
+
 	/**
 	 * Convenience method call with two parameters
 	 * 
@@ -174,11 +175,11 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0, Object p1) throws XMLRPCException {
 		Object[] params = {
-			p0, p1,
+				p0, p1,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
-	
+
 	/**
 	 * Convenience method call with three parameters
 	 * 
@@ -191,9 +192,9 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0, Object p1, Object p2) throws XMLRPCException {
 		Object[] params = {
-			p0, p1, p2,
+				p0, p1, p2,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
 
 	/**
@@ -209,9 +210,9 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0, Object p1, Object p2, Object p3) throws XMLRPCException {
 		Object[] params = {
-			p0, p1, p2, p3,
+				p0, p1, p2, p3,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
 
 	/**
@@ -228,9 +229,9 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0, Object p1, Object p2, Object p3, Object p4) throws XMLRPCException {
 		Object[] params = {
-			p0, p1, p2, p3, p4,
+				p0, p1, p2, p3, p4,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
 
 	/**
@@ -248,9 +249,9 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5) throws XMLRPCException {
 		Object[] params = {
-			p0, p1, p2, p3, p4, p5,
+				p0, p1, p2, p3, p4, p5,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
 
 	/**
@@ -269,9 +270,9 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5, Object p6) throws XMLRPCException {
 		Object[] params = {
-			p0, p1, p2, p3, p4, p5, p6,
+				p0, p1, p2, p3, p4, p5, p6,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
 	}
 
 	/**
@@ -291,9 +292,14 @@ public class XMLRPCClient {
 	 */
 	public Object call(String method, Object p0, Object p1, Object p2, Object p3, Object p4, Object p5, Object p6, Object p7) throws XMLRPCException {
 		Object[] params = {
-			p0, p1, p2, p3, p4, p5, p6, p7,
+				p0, p1, p2, p3, p4, p5, p6, p7,
 		};
-		return callXMLRPC(method, params);
+		return callXMLRPC(method, params, null);
+	}
+
+	public Object callUploadFile(String method, Object[] params, File tempFile) throws XMLRPCException {
+
+		return callXMLRPC(method, params, tempFile);
 	}
 
 	/**
@@ -305,22 +311,18 @@ public class XMLRPCClient {
 	 * @throws XMLRPCException
 	 */
 	@SuppressWarnings("unchecked")
-	private Object callXMLRPC(String method, Object[] params) throws XMLRPCException {
-		File tempFile = null;
+	private Object callXMLRPC(String method, Object[] params, File tempFile) throws XMLRPCException {
 		try {
 			// prepare POST body
 			if (method.equals("wp.uploadFile")){
-				//String tempFilePath = Environment.getExternalStorageDirectory() + File.separator + "b2evolution" + File.separator + "b2evo-" + System.currentTimeMillis() + ".xml";
-				String tempFileName = "b2evo-" + System.currentTimeMillis();
-				tempFile = File.createTempFile(tempFileName, null);
-				
-	            if (!tempFile.exists() && !tempFile.mkdirs()) {
-	            	throw new XMLRPCException("Path to file could not be created.");
-	            }
-	            
+
+				if (!tempFile.exists() && !tempFile.mkdirs()) {
+					throw new XMLRPCException("Path to file could not be created.");
+				}
+
 				FileWriter fileWriter = new FileWriter(tempFile);
 				serializer.setOutput(fileWriter);
-				
+
 				serializer.startDocument(null, null);
 				serializer.startTag(null, TAG_METHOD_CALL);
 				// set method name
@@ -337,19 +339,19 @@ public class XMLRPCClient {
 				}
 				serializer.endTag(null, TAG_METHOD_CALL);
 				serializer.endDocument();
-				
+
 				fileWriter.flush();
 				fileWriter.close();
 
 				FileEntity fEntity = new FileEntity(tempFile,"text/xml; charset=\"UTF-8\"");
-	            fEntity.setContentType("text/xml");
-	            //fEntity.setChunked(true);
-	            postMethod.setEntity(fEntity);
+				fEntity.setContentType("text/xml");
+				//fEntity.setChunked(true);
+				postMethod.setEntity(fEntity);
 			}
 			else{
 				StringWriter bodyWriter = new StringWriter();
 				serializer.setOutput(bodyWriter);
-				
+
 				serializer.startDocument(null, null);
 				serializer.startTag(null, TAG_METHOD_CALL);
 				// set method name
@@ -372,7 +374,7 @@ public class XMLRPCClient {
 				}
 				serializer.endTag(null, TAG_METHOD_CALL);
 				serializer.endDocument();
-				
+
 				HttpEntity entity = new StringEntity(bodyWriter.toString());
 				//Log.i("b2evolution", bodyWriter.toString());
 				postMethod.setEntity(entity);
@@ -380,17 +382,17 @@ public class XMLRPCClient {
 
 			//set timeout to 40 seconds, does it need to be set for both client and method?
 			client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 40000);
-	        client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 40000);
+			client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 40000);
 			postMethod.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 40000);
 			postMethod.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 40000);
-			
+
 			// execute HTTP POST request
 			HttpResponse response = client.execute(postMethod);
-			
+
 			Log.i("b2evolution", "response = " + response.getStatusLine());
 			// check status code
 			int statusCode = response.getStatusLine().getStatusCode();
-			
+
 			deleteTempFile(method, tempFile);
 
 			if (statusCode != HttpStatus.SC_OK) {
@@ -401,7 +403,7 @@ public class XMLRPCClient {
 			XmlPullParser pullParser = XmlPullParserFactory.newInstance().newPullParser();
 			HttpEntity entity = response.getEntity();
 			InputStream is = entity.getContent();
-			
+
 			// Many b2evolution configs can output junk before the xml response (php warnings for example), this cleans it.
 			int bomCheck = -1;
 			int stopper = 0;
@@ -419,27 +421,27 @@ public class XMLRPCClient {
 						//it's all good, add xml tag back and start parsing
 						String start = "<" + snippet;
 						List<InputStream> streams = Arrays.asList(
-							    new ByteArrayInputStream(start.getBytes()),
-							    is);
+								new ByteArrayInputStream(start.getBytes()),
+								is);
 						is = new SequenceInputStream(Collections.enumeration(streams));
 						break;
 					} else {
 						//keep searching...
 						List<InputStream> streams = Arrays.asList(
-							    new ByteArrayInputStream(snippet.getBytes()),
-							    is);
+								new ByteArrayInputStream(snippet.getBytes()),
+								is);
 						is = new SequenceInputStream(Collections.enumeration(streams));
 					}
 				}
 			}
-			
+
 			pullParser.setInput(is, "UTF-8");
-			
+
 			// lets start pulling...
 			pullParser.nextTag();
 			pullParser.require(XmlPullParser.START_TAG, null, TAG_METHOD_RESPONSE);
-			
-			pullParser.nextTag(); // either TAG_PARAMS (<params>) or TAG_FAULT (<fault>)  
+
+			pullParser.nextTag(); // either TAG_PARAMS (<params>) or TAG_FAULT (<fault>)
 			String tag = pullParser.getName();
 			if (tag.equals(TAG_PARAMS)) {
 				// normal response
@@ -447,27 +449,27 @@ public class XMLRPCClient {
 				pullParser.require(XmlPullParser.START_TAG, null, TAG_PARAM);
 				pullParser.nextTag(); // TAG_VALUE (<value>)
 				// no parser.require() here since its called in XMLRPCSerializer.deserialize() below
-				
+
 				// deserialize result
 				Object obj = XMLRPCSerializer.deserialize(pullParser);
 				entity.consumeContent();
 				return obj;
 			} else
-			if (tag.equals(TAG_FAULT)) {
-				// fault response
-				pullParser.nextTag(); // TAG_VALUE (<value>)
-				// no parser.require() here since its called in XMLRPCSerializer.deserialize() below
+				if (tag.equals(TAG_FAULT)) {
+					// fault response
+					pullParser.nextTag(); // TAG_VALUE (<value>)
+					// no parser.require() here since its called in XMLRPCSerializer.deserialize() below
 
-				// deserialize fault result
-				Map<String, Object> map = (Map<String, Object>) XMLRPCSerializer.deserialize(pullParser);
-				String faultString = (String) map.get(TAG_FAULT_STRING);
-				int faultCode = (Integer) map.get(TAG_FAULT_CODE);
-				entity.consumeContent();
-				throw new XMLRPCFault(faultString, faultCode);
-			} else {
-				entity.consumeContent();
-				throw new XMLRPCException("Bad tag <" + tag + "> in XMLRPC response - neither <params> nor <fault>");
-			}
+					// deserialize fault result
+					Map<String, Object> map = (Map<String, Object>) XMLRPCSerializer.deserialize(pullParser);
+					String faultString = (String) map.get(TAG_FAULT_STRING);
+					int faultCode = (Integer) map.get(TAG_FAULT_CODE);
+					entity.consumeContent();
+					throw new XMLRPCFault(faultString, faultCode);
+				} else {
+					entity.consumeContent();
+					throw new XMLRPCException("Bad tag <" + tag + "> in XMLRPC response - neither <params> nor <fault>");
+				}
 		} catch (XMLRPCException e) {
 			// catch & propagate XMLRPCException/XMLRPCFault
 			deleteTempFile(method, tempFile);
@@ -485,6 +487,6 @@ public class XMLRPCClient {
 				tempFile.delete();
 			}
 		}
-		
+
 	}
 }

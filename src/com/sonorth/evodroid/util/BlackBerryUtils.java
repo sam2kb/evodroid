@@ -2,18 +2,18 @@ package com.sonorth.evodroid.util;
 
 /**
  * As of January 20 2012:
- * The BlackBerry Runtime for Android Apps supports Android 2.3.3 applications. 
+ * The BlackBerry Runtime for Android Apps supports Android 2.3.3 applications.
  * 
  * Unsupported App Types:
  * - Widget apps : Apps that are only meant to be widgets are not supported
  * - Apps that include no launchable Activity
  * - Apps that include more than one launchable Activity
  * - Apps whose minimum required Android API level is more than 10, and whose maximum supported level is less than 10
- *  
+ * 
  *  Unsupported Hardware Features:
  *  - Telephony (including SMS and MMS)
  *  - Bluetooth
- *  - Camera:  The intent to launch the camera is supported. However, currently the Camera class in the Android SDK is not supported. 
+ *  - Camera:  The intent to launch the camera is supported. However, currently the Camera class in the Android SDK is not supported.
  *  As a result, although you can launch the camera application, you cannot access the Camera hardware.
  * - NFC
  * - Barometers
@@ -40,10 +40,10 @@ public class BlackBerryUtils {
 
 	private static BlackBerryUtils instance;
 
-	private boolean isPlayBook = false;
-	
-	public boolean isPlayBook() {
-		return isPlayBook;
+	private boolean isBlackBerry = false;
+
+	public boolean isBlackBerry() {
+		return isBlackBerry;
 	}
 
 	public static BlackBerryUtils getInstance() {
@@ -54,8 +54,8 @@ public class BlackBerryUtils {
 	}
 
 	private BlackBerryUtils() {
-		/*isPlayBook =  android.os.Build.MANUFACTURER.equalsIgnoreCase( "Research in Motion" ) &&  
+		/*isBlackBerry =  android.os.Build.MANUFACTURER.equalsIgnoreCase( "Research in Motion" ) &&
 				android.os.Build.MODEL.startsWith( "BlackBerry Runtime for Android" ); */
-		isPlayBook = System.getProperty("os.name").equalsIgnoreCase("qnx") ? true : false;
+		isBlackBerry = System.getProperty("os.name").equalsIgnoreCase("qnx") ? true : false;
 	};
 }

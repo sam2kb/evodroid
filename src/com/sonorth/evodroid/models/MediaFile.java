@@ -1,8 +1,8 @@
 package com.sonorth.evodroid.models;
 
-import com.sonorth.evodroid.b2evolution;
-
 import android.content.Context;
+
+import com.sonorth.evodroid.b2evolution;
 
 public class MediaFile {
 	

@@ -10,11 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.models.Post;
-import com.sonorth.evodroid.util.EscapeUtils;
-import com.sonorth.evodroid.util.StringHelper;
-import com.sonorth.evodroid.util.AppAlertDialogFragment;
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 
@@ -45,21 +40,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.models.Post;
+import com.sonorth.evodroid.util.AppAlertDialogFragment;
+import com.sonorth.evodroid.util.EscapeUtils;
+import com.sonorth.evodroid.util.StringHelper;
+
 public class ViewPosts extends ListFragment {
 	/** Called when the activity is first created. */
 	private XMLRPCClient client;
 	private String[] postIDs, titles, dateCreated, dateCreatedFormatted,
-			draftIDs, draftTitles, draftDateCreated, statuses, draftStatuses;
+	draftIDs, draftTitles, draftDateCreated, statuses, draftStatuses;
 	private Integer[] uploaded;
 	int rowID = 0;
 	long selectedID;
 	public boolean inDrafts = false;
-	public String imgHTML, sImagePlacement = "", sMaxImageWidth = "";
-	public boolean centerThumbnail = false;
 	public Vector<String> imageUrl = new Vector<String>();
-	public String imageTitle = null, accountName;
-	public boolean thumbnailOnly, secondPass, xmlrpcError = false;
-	public String submitResult = "", errorMsg = "";
+	public String errorMsg = "";
 	public int totalDrafts = 0, selectedPosition;
 	public boolean isPage = false, vpUpgrade = false;
 	public boolean largeScreen = false, shouldSelectAfterLoad = false;
@@ -116,7 +113,7 @@ public class ViewPosts extends ListFragment {
 
 	public void onResume() {
 		super.onResume();
-		
+
 		parentActivity = (Posts) getActivity();
 
 	}
@@ -255,37 +252,37 @@ public class ViewPosts extends ListFragment {
 			List<String> newPostIDList = new ArrayList<String>();
 			newPostIDList.add("postsHeader");
 			newPostIDList.addAll(postIDList);
-			postIDs = (String[]) newPostIDList.toArray(new String[newPostIDList
-					.size()]);
+			postIDs = newPostIDList.toArray(new String[newPostIDList
+			                                           .size()]);
 
 			List<String> postTitleList = Arrays.asList(titles);
 			List<CharSequence> newPostTitleList = new ArrayList<CharSequence>();
 			newPostTitleList.add(getResources().getText(
 					(isPage) ? R.string.tab_pages : R.string.tab_posts));
 			newPostTitleList.addAll(postTitleList);
-			titles = (String[]) newPostTitleList
+			titles = newPostTitleList
 					.toArray(new String[newPostTitleList.size()]);
 
 			List<String> dateList = Arrays.asList(dateCreated);
 			List<String> newDateList = new ArrayList<String>();
 			newDateList.add("postsHeader");
 			newDateList.addAll(dateList);
-			dateCreated = (String[]) newDateList.toArray(new String[newDateList
-					.size()]);
+			dateCreated = newDateList.toArray(new String[newDateList
+			                                             .size()]);
 
 			List<String> dateFormattedList = Arrays
 					.asList(dateCreatedFormatted);
 			List<String> newDateFormattedList = new ArrayList<String>();
 			newDateFormattedList.add("postsHeader");
 			newDateFormattedList.addAll(dateFormattedList);
-			dateCreatedFormatted = (String[]) newDateFormattedList
+			dateCreatedFormatted = newDateFormattedList
 					.toArray(new String[newDateFormattedList.size()]);
 
 			List<String> statusList = Arrays.asList(statuses);
 			List<String> newStatusList = new ArrayList<String>();
 			newStatusList.add("postsHeader");
 			newStatusList.addAll(statusList);
-			statuses = (String[]) newStatusList
+			statuses = newStatusList
 					.toArray(new String[newStatusList.size()]);
 		}
 		// load drafts
@@ -297,28 +294,28 @@ public class ViewPosts extends ListFragment {
 			List<String> newDraftIDList = new ArrayList<String>();
 			newDraftIDList.add("draftsHeader");
 			newDraftIDList.addAll(draftIDList);
-			draftIDs = (String[]) newDraftIDList
+			draftIDs = newDraftIDList
 					.toArray(new String[newDraftIDList.size()]);
 
 			List<String> titleList = Arrays.asList(draftTitles);
 			List<CharSequence> newTitleList = new ArrayList<CharSequence>();
 			newTitleList.add(getResources().getText(R.string.local_drafts));
 			newTitleList.addAll(titleList);
-			draftTitles = (String[]) newTitleList
+			draftTitles = newTitleList
 					.toArray(new String[newTitleList.size()]);
 
 			List<String> draftDateList = Arrays.asList(draftDateCreated);
 			List<String> newDraftDateList = new ArrayList<String>();
 			newDraftDateList.add("draftsHeader");
 			newDraftDateList.addAll(draftDateList);
-			draftDateCreated = (String[]) newDraftDateList
+			draftDateCreated = newDraftDateList
 					.toArray(new String[newDraftDateList.size()]);
 
 			List<String> draftStatusList = Arrays.asList(draftStatuses);
 			List<String> newDraftStatusList = new ArrayList<String>();
 			newDraftStatusList.add("draftsHeader");
 			newDraftStatusList.addAll(draftStatusList);
-			draftStatuses = (String[]) newDraftStatusList
+			draftStatuses = newDraftStatusList
 					.toArray(new String[newDraftStatusList.size()]);
 
 			postIDs = StringHelper.mergeStringArrays(draftIDs, postIDs);
@@ -353,19 +350,20 @@ public class ViewPosts extends ListFragment {
 
 					public void onItemClick(AdapterView<?> arg0, View v,
 							int position, long id) {
-						if (v != null
-								&& !postIDs[position].equals("draftsHeader")
-								&& !postIDs[position].equals("postsHeader") && !parentActivity.isRefreshing) {
-							selectedPosition = position;
-							selectedID = v.getId();
-							Post post = new Post(b2evolution.currentBlog.getId(),
-									selectedID, isPage, getActivity()
-											.getApplicationContext());
-							b2evolution.currentPost = post;
-							onPostSelectedListener.onPostSelected(post);
-							pla.notifyDataSetChanged();
+						if (position < postIDs.length) {
+							if (v != null
+									&& !postIDs[position].equals("draftsHeader")
+									&& !postIDs[position].equals("postsHeader") && !parentActivity.isRefreshing) {
+								selectedPosition = position;
+								selectedID = v.getId();
+								Post post = new Post(b2evolution.currentBlog
+										.getId(), selectedID, isPage, getActivity().
+										getApplicationContext());
+								b2evolution.currentPost = post;
+								onPostSelectedListener.onPostSelected(post);
+								pla.notifyDataSetChanged();
+							}
 						}
-
 					}
 
 				});
@@ -381,7 +379,7 @@ public class ViewPosts extends ListFragment {
 							// Log.e(TAG, "bad menuInfo", e);
 							return;
 						}
-						
+
 						if (parentActivity.isRefreshing)
 							return;
 
@@ -671,16 +669,16 @@ public class ViewPosts extends ListFragment {
 				if (wrapper.getDate().getHeight() == 0) {
 					wrapper.getDate().setHeight(
 							(int) wrapper.getTitle().getTextSize()
-									+ wrapper.getDate().getPaddingBottom());
+							+ wrapper.getDate().getPaddingBottom());
 					wrapper.getStatus().setHeight(
 							(int) wrapper.getTitle().getTextSize()
-									+ wrapper.getStatus().getPaddingBottom());
+							+ wrapper.getStatus().getPaddingBottom());
 				}
 			}
 			String titleText = titles[position];
 			if (titleText == "")
 				titleText = "(" + getResources().getText(R.string.untitled)
-						+ ")";
+				+ ")";
 			wrapper.getTitle().setText(titleText);
 			wrapper.getDate().setText(date);
 			wrapper.getStatus().setText(status_text);
@@ -703,7 +701,6 @@ public class ViewPosts extends ListFragment {
 						EditPost.class);
 				i2.putExtra("postID", selectedID);
 				i2.putExtra("id", b2evolution.currentBlog.getId());
-				i2.putExtra("accountName", accountName);
 				startActivityForResult(i2, 0);
 				return true;
 			case 1:
@@ -721,7 +718,6 @@ public class ViewPosts extends ListFragment {
 						EditPost.class);
 				i2.putExtra("postID", selectedID);
 				i2.putExtra("id", b2evolution.currentBlog.getId());
-				i2.putExtra("accountName", accountName);
 				i2.putExtra("isPage", true);
 				startActivityForResult(i2, 0);
 				return true;
@@ -743,7 +739,6 @@ public class ViewPosts extends ListFragment {
 				if (isPage) {
 					i2.putExtra("isPage", true);
 				}
-				i2.putExtra("accountName", accountName);
 				i2.putExtra("localDraft", true);
 				startActivityForResult(i2, 0);
 				return true;
@@ -758,79 +753,36 @@ public class ViewPosts extends ListFragment {
 	}
 
 	public class getRecentPostsTask extends
-			AsyncTask<Vector<?>, Void, Object[]> {
+	AsyncTask<Vector<?>, Void, Void> {
 
 		Context ctx;
 		boolean isPage, loadMore;
 
-		protected void onPostExecute(final Object[] result) {
+		protected void onPostExecute(Void result) {
 			if (isCancelled()) {
 				onRefreshListener.onRefresh(false);
 				return;
 			}
 
-			if (result != null) {
-				if (result.length > 0) {
-					HashMap<?, ?> contentHash = new HashMap<Object, Object>();
-					Vector<HashMap<?, ?>> dbVector = new Vector<HashMap<?, ?>>();
+			loadPosts(loadMore);
 
-					if (!loadMore) {
-						b2evolution.DB.deleteUploadedPosts(
-								b2evolution.currentBlog.getId(), isPage);
-					}
+			if (loadMore)
+				switcher.showPrevious();
+			onRefreshListener.onRefresh(false);
 
-					for (int ctr = 0; ctr < result.length; ctr++) {
-						HashMap<String, Object> dbValues = new HashMap<String, Object>();
-						contentHash = (HashMap<?, ?>) result[ctr];
-						dbValues.put("blogID",
-								b2evolution.currentBlog.getBlogId());
-						dbVector.add(ctr, contentHash);
-					}
-
-					b2evolution.DB.savePosts(dbVector,
-							b2evolution.currentBlog.getId(), isPage);
-					// TODO sam2kb> numRecords
-					//numRecords += 20;
-					if (loadMore)
-						switcher.showPrevious();
-					loadPosts(loadMore);
-				} else {
-					if (pla != null) {
-						if (postIDs.length == 2) {
-							try {
-								b2evolution.DB.deleteUploadedPosts(
-										b2evolution.currentBlog.getId(),
-										b2evolution.currentPost.isPage());
-								onPostActionListener
-										.onPostAction(Posts.POST_CLEAR,
-												b2evolution.currentPost);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							b2evolution.currentPost = null;
-							loadPosts(false);
-						}
-					}
-				}
-				onRefreshListener.onRefresh(false);
-			} else {
-				if (loadMore)
-					switcher.showPrevious();
-				onRefreshListener.onRefresh(false);
-
-				if (errorMsg != "") {
-					FragmentTransaction ft = getFragmentManager()
-							.beginTransaction();
-					AppAlertDialogFragment alert = AppAlertDialogFragment
-							.newInstance(errorMsg);
-					alert.show(ft, "alert");
-					errorMsg = "";
-				}
+			if (errorMsg != "" && !getActivity().isFinishing()) {
+				FragmentTransaction ft = getFragmentManager()
+						.beginTransaction();
+				AppAlertDialogFragment alert = AppAlertDialogFragment
+						.newInstance(errorMsg);
+				alert.show(ft, "alert");
+				errorMsg = "";
 			}
+
 		}
 
 		@Override
-		protected Object[] doInBackground(Vector<?>... args) {
+		protected Void doInBackground(Vector<?>... args) {
 
 			Vector<?> arguments = args[0];
 			b2evolution.currentBlog = (Blog) arguments.get(0);
@@ -848,14 +800,53 @@ public class ViewPosts extends ListFragment {
 			try {
 				result = (Object[]) client.call((isPage) ? "wp.getPages"
 						: "metaWeblog.getRecentPosts", params);
+				if (result != null) {
+					if (result.length > 0) {
+						HashMap<?, ?> contentHash = new HashMap<Object, Object>();
+						Vector<HashMap<?, ?>> dbVector = new Vector<HashMap<?, ?>>();
+
+						if (!loadMore) {
+							b2evolution.DB.deleteUploadedPosts(
+									b2evolution.currentBlog.getId(), isPage);
+						}
+
+						for (int ctr = 0; ctr < result.length; ctr++) {
+							HashMap<String, Object> dbValues = new HashMap<String, Object>();
+							contentHash = (HashMap<?, ?>) result[ctr];
+							dbValues.put("blogID",
+									b2evolution.currentBlog.getBlogId());
+							dbVector.add(ctr, contentHash);
+						}
+
+						b2evolution.DB.savePosts(dbVector,
+								b2evolution.currentBlog.getId(), isPage);
+						// TODO sam2kb> numRecords
+						//numRecords += 20;
+					} else {
+						if (pla != null) {
+							if (postIDs.length == 2) {
+								try {
+									b2evolution.DB.deleteUploadedPosts(
+											b2evolution.currentBlog.getId(),
+											b2evolution.currentPost.isPage());
+									onPostActionListener
+									.onPostAction(Posts.POST_CLEAR,
+											b2evolution.currentPost);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								b2evolution.currentPost = null;
+								loadPosts(false);
+							}
+						}
+					}
+				}
 			} catch (XMLRPCException e) {
 				errorMsg = e.getMessage();
 			}
 
-			return result;
-
+			return null;
 		}
-
 	}
 
 	public interface OnPostSelectedListener {

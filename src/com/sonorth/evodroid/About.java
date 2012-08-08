@@ -1,7 +1,5 @@
 package com.sonorth.evodroid;
 
-import com.sonorth.evodroid.util.BlackBerryUtils;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -13,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.sonorth.evodroid.util.BlackBerryUtils;
+
 public class About extends Activity {
 	final String app_author_url = "http://evodroid.sonorth.com";
 	final String tos_url = "/tos";
@@ -22,11 +22,11 @@ public class About extends Activity {
 		super.onCreate(icicle);
 		setContentView(R.layout.about);
 
-		if ( BlackBerryUtils.getInstance().isPlayBook() ) {
+		if ( BlackBerryUtils.getInstance().isBlackBerry() ) {
 			TextView appTitle = (TextView) findViewById(R.id.about_first_line);
-			appTitle.setText(getResources().getText(R.string.app_title_playbook));
+			appTitle.setText(getResources().getText(R.string.app_title_blackberry));
 		}
-		
+
 		TextView version = (TextView) findViewById(R.id.about_version);
 		PackageManager pm = getPackageManager();
 		try {

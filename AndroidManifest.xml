@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.sonorth.evodroid" android:installLocation="auto"
-	android:versionName="0.0.1" android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android">
+	android:versionName="Constants.versionNumber" android:versionCode="1" xmlns:android="http://schemas.android.com/apk/res/android">
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="13"></uses-sdk>
 	<supports-screens android:smallScreens="true"
 		android:normalScreens="true" android:largeScreens="true"

@@ -5,7 +5,7 @@ package com.sonorth.evodroid.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.text.style.ImageSpan; //import android.util.Log;
+import android.text.style.ImageSpan;
 
 public class AppImageSpan extends ImageSpan {
 	

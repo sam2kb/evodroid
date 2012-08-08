@@ -1,7 +1,9 @@
 package com.sonorth.evodroid;
 
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.util.EscapeUtils;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.Vector;
+
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 import org.xmlrpc.android.XMLRPCFault;
@@ -16,9 +18,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.Vector;
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.util.EscapeUtils;
 
 public class CommentService extends Service {
 

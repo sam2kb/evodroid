@@ -3,20 +3,6 @@ package com.sonorth.evodroid.util;
 import java.util.HashMap;
 import java.util.Vector;
 
-import com.sonorth.evodroid.Comments;
-import com.sonorth.evodroid.Dashboard;
-import com.sonorth.evodroid.NewAccount;
-import com.sonorth.evodroid.EditPost;
-import com.sonorth.evodroid.Posts;
-import com.sonorth.evodroid.R;
-import com.sonorth.evodroid.Read;
-import com.sonorth.evodroid.Settings;
-import com.sonorth.evodroid.ViewComments;
-import com.sonorth.evodroid.b2evolution;
-import com.sonorth.evodroid.b2evolutionDB;
-import com.sonorth.evodroid.models.Blog;
-import com.sonorth.evodroid.util.ImageHelper.BitmapDownloaderTask;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,6 +24,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.sonorth.evodroid.Comments;
+import com.sonorth.evodroid.Dashboard;
+import com.sonorth.evodroid.EditPost;
+import com.sonorth.evodroid.NewAccount;
+import com.sonorth.evodroid.Posts;
+import com.sonorth.evodroid.R;
+import com.sonorth.evodroid.Read;
+import com.sonorth.evodroid.Settings;
+import com.sonorth.evodroid.ViewComments;
+import com.sonorth.evodroid.b2evolution;
+import com.sonorth.evodroid.b2evolutionDB;
+import com.sonorth.evodroid.models.Blog;
+import com.sonorth.evodroid.util.ImageHelper.BitmapDownloaderTask;
 
 public class AppTitleBar extends RelativeLayout {
 
